@@ -9,9 +9,11 @@ Input &amp; Output Data for MIP, Heuristic Algorithm
     - ex ) Initial_state_ex1, ... , Initial_state_ex10
 - idx : Index of container
 - loc_x : x-axis of container
+    - from 1 to 6
 - loc_y : y-axis of container
     - Single bay : loc_y = 0
 - loc_z : z-axis of container
+    - from 0 to 4
 - weight : Weight of container
     - Random number from 2.96 to 24.0 with up to 2 decimal places
 - size(ft) : Size of container
@@ -41,14 +43,17 @@ Input &amp; Output Data for MIP, Heuristic Algorithm
 ## Output Data
 Data for initial and new Containers
 - Folder Path : '/Container_15/Initial_3/Output/Congiguration_ex1'
-    - /Conatiner_ + total number of container + Initial_ + number of initial container/Output/
+    - '/Conatiner_ + total number of container + Initial_ + number of initial container/Output/'
 - Setting for file name : Configuration_ex + experiment repeat number
 - idx : Index of container
 - loc_x : x-axis of container
+    - from 1 to 6
 - loc_y : y-axis of container
     - Single bay : loc_y = 0
 - loc_z : z-axis of container
+    - - from 0 to 4
 - weight : Weight of container
     - Random number from 2.96 to 24.0 with up to 2 decimal places
 - size(ft) : Size of container
     - Default value : 20
+- relocation : Number of relocation for each container
