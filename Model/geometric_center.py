@@ -13,31 +13,37 @@ w = [9, 8, 7, 6, 5, 4, 3, 2, 1]
 level_num = 9
 
 # Create h by m grid
-# def set_geometric_center(stack, height, levels):
-#     grid = np.zeros((height, stack))
+def set_geometric_center(stack, height, levels):
+    grid = np.zeros((height, stack))
     
-#     # sort weights in increasing order
-#     sorted_levels = sorted(levels)
-#     print(sorted_levels)
+    # sort weights in increasing order
+    sorted_levels = sorted(levels)
+    print(sorted_levels)
     
-#     height_idx = height - 1
-#     height_bottom_idx = height - 1
-#     stack_idx = 0
+    # Height_idx : 0 ~ 4
+    height_idx = height - 1
+    stack_idx = 0
     
-#     for level in sorted_levels:    
-#         if height_idx == height_bottom_idx & stack_idx == 0:
-#             if grid[height_idx][stack_idx] == 0:
-#                 grid[height_idx][stack_idx] = level
-#                 stack_idx += 1
-                
-#         elif height_idx == height_bottom_idx:
-            
+    # height : 5, stack : 6 
+    # index height : 0 ~ 4, index stack : 0 ~ 5
+    # start : (4,0)
+    # if stack == 0 -> stack_idx += 1
+    # if height_index != 0 -> height_idx -= 1
+    for level_idx in range(len(sorted_levels)):
+        now_level = sorted_levels[level_idx]
+        print('level : ', now_level)
 
-                
-#     # for i in range(h):
-#     #     for j in range(m):
-#     #         grid[i][j] = m + i - j
-#     return grid
+        if (stack_idx == 0) & (height_idx == height -1):
+            grid[height_idx][stack_idx] = now_level
+            stack_idx += 1
+        
+        else:
+            grid[height_idx][stack_idx] = now_level
+            height_idx -= 1
+            stack_idx -= 1
+            
+            if stack_idx == 0:
+                stack_idx += 1
 
 def div_level(_weights, _level_num):
     w_min = min(_weights)
