@@ -103,7 +103,8 @@ def get_geometric_dict(_grid):
 
     for _h in range(_grid.shape[0]):
         for _s in range(_grid.shape[1]):
-            location = (_s, _grid.shape[0] - _h -1)
+            # stack : 1 ~ stack_num, height : 0 ~ tier_num - 1 
+            location = (_s + 1, _grid.shape[0] - _h -1)
         
             if _grid[_h][_s] not in _dict.keys():
                 # _dict[_grid[_h][_s]] = [(_h + 1, _s +1)]
