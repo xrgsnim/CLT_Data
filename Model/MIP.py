@@ -88,7 +88,7 @@ for j in range(1, m+1):
         
 # constraint 5 : define d_i
 for i in range(1, n+1):
-    level = container_level[i - 1]
+    level = container_level[i-1]
     model.add_constraint(d[i] == d_x[i] + d_y[i])
     model.add_constraint(d_x[i] >= sum(x[i,j,k] * j for j in range(1, m+1) for k in range(h)) - centroid[level][0])
     model.add_constraint(d_x[i] >= -(sum(x[i,j,k] * j for j in range(1, m+1) for k in range(h)) - centroid[level][0]))
@@ -106,10 +106,10 @@ for j in range(1, m):
 for j in range(1, m+1):
     for k in range(h-1):
         for _k in range(k+1, h):
-            model.add_constraint((sum((new_weight[i -1] * x[i,j,k]) for i in range(1, n+1)) - sum((new_weight[i -1] * x[i,j,_k]) for i in range(1, n+1)))/ M <= M * (1- sum(x[i,j,_k] for i in range(1, n+1))) + r[j,k])
+            model.add_constraint((sum((new_weight[i-1] * x[i,j,k]) for i in range(1, n+1)) - sum((new_weight[i-1] * x[i,j,_k]) for i in range(1, n+1)))/ M <= M * (1- sum(x[i,j,_k] for i in range(1, n+1))) + r[j,k])
             model.add_constraint(r[j,k] <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1)))+ r[j,_k])            
             # Constraint : sequence
-            model.add_constraint(sum(sequence[i -1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(sequence[i - 1] * x[i,j,_k] for i in range(1, n+1)))
+            model.add_constraint(sum(sequence[i-1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(sequence[i-1] * x[i,j,_k] for i in range(1, n+1)))
             
 
 for j in range(1, m+1):
@@ -133,11 +133,13 @@ if solution:
     for i in range(1, n+1):
         for j in range(1, m+1):
             for k in range(h):
-                if x[i,j,k].solution_value != 0:
-                    print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',new_weight[i - 1], 'sequence : ', sequence[i-1], 'priority : ', priority[i-1], ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
-                    result.append((new_weight[i -1],j,k))
+                if x[i,j,k].solution_value >= 0.99:
+                    container_original_weight = w[i-1]
+                    container_sequence = sequence[i-1]
+                    container_priority = priority[i-1]
+                    print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',container_original_weight, 'sequence : ', container_sequence, 'priority : ', container_priority, ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
+                    result.append((container_original_weight,j,k))
     print('-------------------------')
-    # figure.draw_figure(m, h, result)
     figure.draw_figure_2(m, h, result)
     
 else:
