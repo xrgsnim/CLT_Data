@@ -37,7 +37,7 @@ size = [20 for i in range(len(w))]
 n = len(w)
 
 # Big M
-M = 100
+M = 1000
 
 # weight of objective function
 alpha = 0.5
@@ -57,10 +57,9 @@ print('New weight : ', new_weight)
 print('level_num : ', level_num)
 print('container_level : ', container_level, '\n')
 
-
 # Decision Variables
-x = model.binary_var_dict([(i,j,k) for i in range(1, n+1) for j in range(m) for k in range(h)], lb = 0, ub = 1, name = 'x')
-r = model.binary_var_dict([(j,k) for j in range(m) for k in range(h)], lb = 0, ub = 1, name = 'r')
+x = model.binary_var_dict([(i,j,k) for i in range(1, n+1) for j in range(1, m+1) for k in range(h)], lb = 0, ub = 1, name = 'x')
+r = model.binary_var_dict([(j,k) for j in range(1, m+1) for k in range(h)], lb = 0, ub = 1, name = 'r')
 
 d = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd')
 d_x = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd_x')
@@ -71,19 +70,19 @@ d_y = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd_y'
 # Constraints
 # Constraint 1 : Container i must be assigned to exactly one stack and one tier
 for i in range(1, n+1):
-    model.add_constraint(sum(x[i,j,k] for j in range(m) for k in range(h)) == 1)
+    model.add_constraint(sum(x[i,j,k] for j in range(1, m+1) for k in range(h)) == 1)
 
 # Constraint 2 : one slot can only have one container
-for j in range(m):
+for j in range(1, m+1):
     for k in range(h):
         model.add_constraint(sum(x[i,j,k] for i in range(1, n+1)) <= 1)
     
 # constraint 3 : the hight of stack j must be less than or equal to h
-for j in range(m):
+for j in range(1, m+1):
     model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(1, n+1)) <= h)
     
 # constraint 4 : you can't stack a container on slot k if there is no container on slot k-1
-for j in range(m):
+for j in range(1, m+1):
     for k in range(h-1):
         model.add_constraint(sum(x[i,j,k] for i in range(1, n+1)) >= sum(x[i,j,k+1] for i in range(1, n+1)))
         
@@ -91,20 +90,20 @@ for j in range(m):
 for i in range(1, n+1):
     level = container_level[i - 1]
     model.add_constraint(d[i] == d_x[i] + d_y[i])
-    model.add_constraint(d_x[i] >= sum(x[i,j,k] * j for j in range(m) for k in range(h)) - centroid[level][0])
-    model.add_constraint(d_x[i] >= -(sum(x[i,j,k] * j for j in range(m) for k in range(h)) - centroid[level][0]))
-    model.add_constraint(d_y[i] >= sum(x[i,j,k] * k for j in range(m) for k in range(h)) - centroid[level][1])
-    model.add_constraint(d_y[i] >= -(sum(x[i,j,k] * k for j in range(m) for k in range(h)) - centroid[level][1]))
+    model.add_constraint(d_x[i] >= sum(x[i,j,k] * j for j in range(1, m+1) for k in range(h)) - centroid[level][0])
+    model.add_constraint(d_x[i] >= -(sum(x[i,j,k] * j for j in range(1, m+1) for k in range(h)) - centroid[level][0]))
+    model.add_constraint(d_y[i] >= sum(x[i,j,k] * k for j in range(1, m+1) for k in range(h)) - centroid[level][1])
+    model.add_constraint(d_y[i] >= -(sum(x[i,j,k] * k for j in range(1, m+1) for k in range(h)) - centroid[level][1]))
     
 
 # # Constraint 6 : prevent peak stacks
-for j in range(m-1):
+for j in range(1, m):
     model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(1, n+1)) - sum(x[i,j+1,k] for k in range(h) for i in range(1, n+1)) <= l)
     model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(1, n+1)) - sum(x[i,j+1,k] for k in range(h) for i in range(1, n+1)) >= -l)
         
     
 # Constraint 7 : define r_jk
-for j in range(m):
+for j in range(1, m+1):
     for k in range(h-1):
         for _k in range(k+1, h):
             model.add_constraint((sum((new_weight[i -1] * x[i,j,k]) for i in range(1, n+1)) - sum((new_weight[i -1] * x[i,j,_k]) for i in range(1, n+1)))/ M <= M * (1- sum(x[i,j,_k] for i in range(1, n+1))) + r[j,k])
@@ -113,12 +112,12 @@ for j in range(m):
             model.add_constraint(sum(sequence[i -1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(sequence[i - 1] * x[i,j,_k] for i in range(1, n+1)))
             
 
-for j in range(m):
+for j in range(1, m+1):
     for k in range(h):
         model.add_constraint(sum(x[i,j,k] for i in range(1, n+1)) >= r[j,k])
 
 # Objective Function
-model.minimize(alpha * sum(r[j,k] for j in range(m) for k in range(h)) + beta * sum(d[i] for i in range(1, n+1)))
+model.minimize(alpha * sum(r[j,k] for j in range(1, m+1) for k in range(h)) + beta * sum(d[i] for i in range(1, n+1)))
 
 print('------------------', 'Information of model', '------------------')
 model.print_information()
@@ -132,12 +131,14 @@ if solution:
     result = []
     
     for i in range(1, n+1):
-        for j in range(m):
+        for j in range(1, m+1):
             for k in range(h):
                 if x[i,j,k].solution_value != 0:
-                    print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',new_weight[i - 1], ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
+                    print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',new_weight[i - 1], 'sequence : ', sequence[i-1], 'priority : ', priority[i-1], ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
                     result.append((new_weight[i -1],j,k))
     print('-------------------------')
-    figure.draw_figure(m, h, result)
+    # figure.draw_figure(m, h, result)
+    figure.draw_figure_2(m, h, result)
+    
 else:
     print('No solution found')

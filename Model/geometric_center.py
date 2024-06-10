@@ -1,10 +1,22 @@
 import numpy as np
+import get_grid
 
+locations = [(1,0), (1,1), (2,0), (1,2), (2,1), (3,0), (1,3), (2,2), (3,1), (4,0), (1,4), (2,3), (3,2), (4,1), (5,0),
+             (2,4), (3,3), (4,2), (5,1), (6,0), (3,4), (4,3), (5,2), (6,1), (4,4), (5,3), (6,2), (5,4), (6,3), (6,4)]
 
-
-# Create h by m grid
-
-                
+def create_grid(stack_num, height_num, _levels, _locations):
+    grid = np.zeros((height_num, stack_num))
+    sorted_levels = sorted(_levels)
+    
+    for i in range(len(sorted_levels)):
+        column_idx = _locations[i][0] - 1
+        row_idx = height_num - _locations[i][1] - 1 
+        
+        grid[row_idx][column_idx] = sorted_levels[i]
+    
+    return grid
+        
+    
 def div_level(_weights, _level_num):
     w_min = min(_weights)
     w_max = max(_weights)
@@ -23,6 +35,7 @@ def get_level(_weights, _level_range):
             if w_i >= l_min and w_i < l_max:
                 _container_level.append(level_idx)
     return _container_level  
+
 
 def set_geometric_grid(stack_num, height_num, levels):
     grid = np.zeros((height_num, stack_num))
@@ -97,6 +110,7 @@ def set_geometric_grid(stack_num, height_num, levels):
     print('geometric grid by level \n', grid, '\n ------------------- \n')
     return grid
 
+
 # get dictionary of geometric center
 def get_geometric_dict(_grid):
     _dict = {}
@@ -127,8 +141,10 @@ def get_geometric_center(_m, _h, _weights, _level_num):
     print('level range : ', level_range, '\n')
     
     container_level = get_level(_weights, level_range)
-    geometric_grid = set_geometric_grid(_m, _h, container_level)
-
+    # geometric_grid = set_geometric_grid(_m, _h, container_level)
+    geometric_grid = create_grid(_m, _h, container_level, locations)
+    # geometric_grid = get_grid.place_containers_diagonally(container_level, _h, _m)
+    print('geometric grid : \n', geometric_grid, '\n')
     geometric_dict = get_geometric_dict(geometric_grid)
 
     _geometric_center_dict = {}

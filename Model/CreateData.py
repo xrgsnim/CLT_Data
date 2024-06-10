@@ -13,15 +13,16 @@ import os
 # new_con_num_list = [10, 15, 20]
 #--------------------------------------------
 # repeat time
-# repeat_num = 1
+repeat_num = 1
 
-# initial_con_num_list = [5]
-# new_con_num_list = [10]
+initial_con_num_list = [5, 10, 15]
+new_con_num_list = [10, 15, 20]
 
-# stack_num = 6
-# tier_num = 5
-# initial_con_start_idx = 1
-# priority_group_num = 5
+stack_num = 6
+tier_num = 5
+initial_con_start_idx = 1
+# 0 ~ n개 까지의 priority group
+priority_group_num = 15
 
 
 def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_num, tier_num, initial_container_start_idx, priority_group_num):
@@ -55,4 +56,6 @@ def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_nu
                     
                     # Save Input Data for New Container
                     saveCSV.NewContainerCSV(folderPath, new_container_name, new_con_start_idx, new_con_num, priority_group_num)
-                
+
+
+get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_num, tier_num, initial_con_start_idx, priority_group_num)
