@@ -13,13 +13,13 @@ import random
 # new_con_num_list = [10, 15, 20]
 #--------------------------------------------
 # repeat time
-repeat_num = 1
+repeat_num = 15
 
 # initial_con_num_list = [5, 10, 15]
 # new_con_num_list = [10, 15, 20]
 
-initial_con_num_list = [5]
-new_con_num_list = [10]
+initial_con_num_list = [0, 3, 5, 7]
+new_con_num_list = [10, 13, 15, 20]
 
 stack_num = 6
 tier_num = 5
@@ -45,7 +45,7 @@ def get_priority(_priority_list, container_num):
     
 
 def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_num, tier_num, initial_container_start_idx):
-    if len(initial_con_num_list) != len(new_con_num_list):
+    if len(initial_con_num_list) ==  0 or len(new_con_num_list) == 0:
         print('Error : Check initial_con_num or new_con_num_list')
     else:    
         for initial_con_num in initial_con_num_list:
