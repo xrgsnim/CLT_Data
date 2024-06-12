@@ -59,10 +59,6 @@ def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_nu
                 if not os.path.exists(folderPath):
                     os.makedirs(folderPath)
                     print('Create Folder : ', folderPath, '\n')
-                
-                total_con_num = initial_con_num + new_con_num
-                # 0 ~ total_container_num
-                priority_list = [i for i in range(0, total_con_num + 1)]
         
                 for repeat_num_idx in range(repeat_num):
                     
@@ -72,12 +68,16 @@ def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_nu
                     print('--------- Start Create Input Data ---------')
                     print('Initial Container Number : ', initial_con_num, '\nNew Container Number : ', new_con_num)
                     
-                    initial_con_priority, updated_priority_list = get_priority(priority_list, total_con_num)
+                    total_con_num = initial_con_num + new_con_num
+                    # 0 ~ total_container_num
+                    priority_list = [i for i in range(0, total_con_num + 1)]
+                    
+                    initial_con_priority, updated_priority_list = get_priority(priority_list, initial_con_num)
                     
                     # Save Input Data for Initial Container
                     saveCSV.InitialContainerCSV(folderPath, initial_container_name, initial_container_start_idx, initial_con_num, stack_num, tier_num, initial_con_priority)
                     
-                    new_con_priority, updated_priority_list = get_priority(updated_priority_list, total_con_num)
+                    new_con_priority, updated_priority_list = get_priority(updated_priority_list, new_con_num)
                     
                     # Save Input Data for New Container
                     saveCSV.NewContainerCSV(folderPath, new_container_name, new_con_start_idx, new_con_num, new_con_priority)
