@@ -41,8 +41,7 @@ def get_priority(_priority_list, container_num):
         
     return container_priority, _priority_list
         
-    
-    
+       
 
 def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_num, tier_num, initial_container_start_idx):
     if len(initial_con_num_list) ==  0 or len(new_con_num_list) == 0:
