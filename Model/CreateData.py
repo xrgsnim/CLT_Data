@@ -70,7 +70,7 @@ def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_nu
                     
                     total_con_num = initial_con_num + new_con_num
                     # 0 ~ total_container_num
-                    priority_list = [i for i in range(0, total_con_num + 1)]
+                    priority_list = [i* 0.1 for i in range(0, total_con_num + 1)]
                     
                     initial_con_priority, updated_priority_list = get_priority(priority_list, initial_con_num)
                     
