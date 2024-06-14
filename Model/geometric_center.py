@@ -114,8 +114,7 @@ def set_geometric_grid(_stack_idx, _height_idx, min_stack_idx, max_stack_idx, mi
             if max_stack_idx == _grid.shape[1] - 1:
                 max_height_idx -= 1
 
-            else:
-                print('max_stack_idx is not max')       
+            else: 
                 max_stack_idx += 1
                 
  

@@ -57,17 +57,34 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     container_level = gm.get_level(all_container_score, gm.div_level(all_container_score, _level_num))
     
     print(' --------------- Start MIP model --------------- ')
-    print('Number of initial container : ', initial_container_num)
-    print('Number of new container : ', new_container_num)
-    print('Original weight : ', all_container_weights)
-    print('Group : ', all_container_group)
-    print('Sequence : ', all_container_seq, '\n')
-    print('Scroe : ', all_container_score)
-    print('Level_num : ', _level_num)
-    print('Container_level : ', container_level, '\n')
+    print(f'Number of initial container : {initial_container_num}')
+    print(f'Number of new container : {new_container_num}')
+    print(f'Total number of containers : {n}\n')
+    print(f'Original weight : {all_container_weights}')
+    print(f'Group : {all_container_group}')
+    print(f'Sequence : {all_container_seq}')
+    print(f'Scroe : {all_container_score}')
+    print(f'Level_num : {_level_num}')
+    print(f'Container_level : {container_level}\n')
 
+    if n != len(all_container_weights):
+        print("Error : Check number of all weights")
+    
+    if n != len(all_container_group):
+        print("Error : Check number of all groups")
+    
+    if n != len(all_container_seq):
+        print("Error : Check number of sequence")
+    
+    if n != len(all_container_score):
+        print("Error : Check number of score")
+        
+    if n != len(container_level):
+        print("Error : Check number of container level")
+    
+    
     # Decision Variables
-    x = model.binary_var_dict([(i,j,k) for i in range(1, n+1) for j in range(max_diff, m+1) for k in range(h)], lb = 0, ub = 1, name = 'x')
+    x = model.binary_var_dict([(i,j,k) for i in range(1, n+1) for j in range(1, m+1) for k in range(h)], lb = 0, ub = 1, name = 'x')
     r = model.binary_var_dict([(j,k) for j in range(1, m+1) for k in range(h)], lb = 0, ub = 1, name = 'r')
 
     d = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd')
@@ -292,8 +309,6 @@ def save_output_file(_file_path, _result):
         
 def main():
     
-    input_folder_path = folder_path + 'Input/'
-    
     initial_file_names, new_file_names, experiment_idx_list = get_input_file(input_folder_path)
     # print('Initial files : ', initial_file_names, '\n', 'New files : ', new_file_names, '\n')
 
@@ -305,11 +320,11 @@ def main():
     else:
         for file_idx in range(initial_file_num):
             
-            print(f"Now repeat time : {file_idx}\n")
+            print(f"Now repeat time : {file_idx + 1}\n")
             # initial_file = folder_path + initial_file_names[file_idx]
-            initial_file = os.path.join(os.getcwd(), folder_path, initial_file_names[file_idx])
+            initial_file = os.path.join(os.getcwd(), input_folder_path, initial_file_names[file_idx])
             # new_file = folder_path + new_file_names[file_idx]
-            new_file = os.path.join(os.getcwd(), folder_path, new_file_names[file_idx])
+            new_file = os.path.join(os.getcwd(), input_folder_path, new_file_names[file_idx])
             experiment_idx = experiment_idx_list[file_idx]
             
             print('---------------- Info of Input Data ----------------')
@@ -320,6 +335,7 @@ def main():
                 beta = 1 - alpha            
                 
                 result_folder_path_by_alpha = output_folder_path + 'alpha_' + str(alpha) + '_beta_' + str(beta) + '\\'
+                print(result_folder_path_by_alpha,'\n')
                 model_result = mip_model(initial_file, new_file, stack_num, tier_num, peak_limit, level_num, Big_M, alpha, beta, result_folder_path_by_alpha, experiment_idx)
                 
                 if len(model_result) != 0:
@@ -332,8 +348,9 @@ def main():
     
     
 # Parameters
-folder_path = 'Data\\Initial_0\\New_50\\'
-output_folder_path = 'Ouput_Data\\MIP\\'
+folder_name = 'Initial_0\\New_50'
+input_folder_path = f'Input_Data\\{folder_name}\\'
+output_folder_path = f'Output_Data\\{folder_name}\\MIP\\'
 
 stack_num = 10
 tier_num = 6
