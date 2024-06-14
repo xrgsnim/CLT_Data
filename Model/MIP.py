@@ -7,10 +7,9 @@ import re
 import csv
 
 
-model = Model(name = 'IP model')
-
-
 def mip_model(initial_container_file_path, new_container_file_path, m, h, max_diff, _level_num, M, _alpha, _beta, result_folder_path, ex_idx):
+    
+    model = Model(name = 'IP model')
     
     initial_container_df = pd.read_csv(initial_container_file_path)
     new_container_df = pd.read_csv(new_container_file_path)
@@ -171,19 +170,28 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
 
     result = []
 
+    if not os.path.exists(result_folder_path):
+            os.makedirs(result_folder_path)
+            print('Create Result Folder : ', result_folder_path)
+            
     print('\n------------------', 'Solution', '------------------')
     if solution:
         
         # save to text file
-        solution_file_path = result_folder_path + 'Solution_ex' + str(ex_idx) + '.txt'
+        solution_file_path = os.path.join(result_folder_path, f'Solution_ex{ex_idx}.txt')
         
-        if not os.path.exists(solution_file_path):
-            os.makedirs(solution_file_path)
-            print('Create File : ', solution_file_path)
-
         with open(solution_file_path, 'w') as f:
-            # write solution in txt file
-            f.write(model.print_solution())
+            f.write(f'Number of initial container : {initial_container_num}')
+            f.write(f'Number of new container : {new_container_num}')
+            f.write(f'Total number of containers : {n}\n')
+            f.write(f"Repeat number : {ex_idx}\n")
+            f.write(f'Original weight : {all_container_weights}')
+            f.write(f'Group : {all_container_group}')
+            f.write(f'Sequence : {all_container_seq}')
+            f.write(f'Scroe : {all_container_score}')
+            f.write(f'Level_num : {_level_num}')
+            f.write(f'Container_level : {container_level}\n')
+            f.write(model.solution.to_string())
         
         fig_container_info = []
         
@@ -195,19 +203,20 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
                         container_group = all_container_group[i-1]
                         container_score = all_container_score[i-1]
                         container_sequence = all_container_seq[i-1]
-                        container_emergency = all_container_emerg[i]
+                        container_emergency = all_container_emerg[i-1]
                         container_relocation = r[j,k].solution_value
                         container_size = all_container_size[i-1]
                         
-                        print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',container_original_weight, ', group : ', container_group, ', sequence : ', container_sequence, 
-                                'emergency : ', container_emergency, ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
+                        # print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',container_original_weight, ', group : ', container_group, ', sequence : ', container_sequence, 
+                        #         'emergency : ', container_emergency, ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
                         fig_container_info.append((container_original_weight, j, k))
+                        
                         # Output data : container index, loc_x, loc_y, loc_z, weight, group, score, sequence, relocation, size(ft) 
                         result.append((i, j, 0, k, container_original_weight, container_group, container_score, container_sequence, container_emergency, container_relocation, container_size))
         print('-------------------------')
         
         # Save fig
-        fig_file_path = result_folder_path + 'Configuration_ex' + str(ex_idx) + '.png'
+        fig_file_path = os.path.join(result_folder_path, f'Configuration_ex{ex_idx}.png')
         
         figure.draw_figure(m, h, fig_container_info, fig_file_path)
                 
@@ -216,15 +225,11 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
         
         # save to text file
         failed_file_path = result_folder_path + 'Failed_ex' + str(ex_idx) + '.txt'
-        
-        if not os.path.exists(failed_file_path):
-            os.makedirs(failed_file_path)
-            print('Create Failed Experiment File : ', failed_file_path)
 
         with open(failed_file_path, 'w') as f:
-            # write solution in txt file
             f.write("Can't find feasible solution")
-    
+        print('Create Failed File')
+        
     return result
 
 
@@ -259,8 +264,6 @@ def get_input_file(_folder_path):
     print('Total Number of CSV Files : ', len(initial_file_list),'\n')
     return initial_file_list, new_file_list, ex_num
 
-
-
 def save_output_file(_file_path, _result):
     
     with open(_file_path, 'w', newline='') as csvfile:
@@ -288,30 +291,11 @@ def save_output_file(_file_path, _result):
         
         print('--------- Success Create Output Data ---------\n', _file_path ,'\n')
     
-# def solution_txt(_file_path, _solution):
-    
-#     if not os.path.exists(_file_path):
-#         os.makedirs(_file_path)
-#         print('Create File : ', _file_path)
-    
-#     # save txt file
-#     # status = _solution.get_status()
-#     # status_str = _solution.get_status_strint()
-#     # objective_value = _solution.get_objective_value()
-#     # variable_values = _solution.get_values()
-    
-#     with open(_file_path, 'w') as f:
-#         _solution.solution
-        # f.write(f"Solution status : {status} ({status_str})\n")
-        # f.write(f"Objective value : {objective_value}\n")
-        # f.write(f"Decision Variables : \n")
-        # for var_name, var_value in zip(model.variables.get_names)
         
 def main():
     
     initial_file_names, new_file_names, experiment_idx_list = get_input_file(input_folder_path)
-    # print('Initial files : ', initial_file_names, '\n', 'New files : ', new_file_names, '\n')
-
+    
     initial_file_num = len(initial_file_names)
     
     if initial_file_num != len(new_file_names):
@@ -321,9 +305,8 @@ def main():
         for file_idx in range(initial_file_num):
             
             print(f"Now repeat time : {file_idx + 1}\n")
-            # initial_file = folder_path + initial_file_names[file_idx]
+            
             initial_file = os.path.join(os.getcwd(), input_folder_path, initial_file_names[file_idx])
-            # new_file = folder_path + new_file_names[file_idx]
             new_file = os.path.join(os.getcwd(), input_folder_path, new_file_names[file_idx])
             experiment_idx = experiment_idx_list[file_idx]
             
@@ -334,13 +317,13 @@ def main():
             for alpha in alpha_list:
                 beta = 1 - alpha            
                 
-                result_folder_path_by_alpha = output_folder_path + 'alpha_' + str(alpha) + '_beta_' + str(beta) + '\\'
+                result_folder_path_by_alpha = os.path.join(output_folder_path, f'alpha_{alpha}_beta_{beta}')
                 print(result_folder_path_by_alpha,'\n')
                 model_result = mip_model(initial_file, new_file, stack_num, tier_num, peak_limit, level_num, Big_M, alpha, beta, result_folder_path_by_alpha, experiment_idx)
                 
                 if len(model_result) != 0:
                     # save solution to csv file
-                    output_file_path = result_folder_path_by_alpha + 'Configuration_ex' + str(experiment_idx) +'.csv'
+                    output_file_path = os.path.join(result_folder_path_by_alpha, f'Configuration_ex{experiment_idx}.csv')
                     save_output_file(output_file_path, model_result)
                 else:
                     print('!!! There is no solution !!!')
@@ -350,18 +333,14 @@ def main():
 # Parameters
 folder_name = 'Initial_0\\New_50'
 input_folder_path = f'Input_Data\\{folder_name}\\'
-output_folder_path = f'Output_Data\\{folder_name}\\MIP\\'
+output_folder_path = f'Output_Data\\MIP\\{folder_name}\\'
 
 stack_num = 10
 tier_num = 6
 peak_limit = 2
 
 # Big M
-Big_M = 1000
-
-# weight of objective function
-# alpha = 0.5
-# beta = 0.5
+Big_M = 100
 
 alpha_list = [0, 0.5, 1]
 
