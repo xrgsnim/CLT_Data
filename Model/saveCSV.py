@@ -109,9 +109,10 @@ def InitialContainerCSV(folderpath, fileName, start_idx, initial_container_num, 
             weight = weight_list[i]
             priority = priority_list[i]
             size = size_list[i]
+            emergency = 0
             
             # Write row to CSV file
-            writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight, 'priority' : priority, 'size(ft)': size})
+            writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight, 'priority' : priority, 'emerg' : emergency, 'size(ft)': size})
         
         print('--------- Success Create Input Data : ', fileName ,'---------\n')
 
@@ -125,7 +126,8 @@ def NewContainerCSV(folderpath, fileName, start_idx, new_container_num, priority
     # random sequence : 1 ~ new_con_num 
     # sequence_list = random.sample(range(1, new_container_num + 1), new_container_num)
     sequence_list = np.arange(1, new_container_num + 1)
-
+    emerg_list = get_emergency_list(new_container_num)
+    
     # random weight from 2.96 to 24.0 with up to 2 decimal places
     weight_list = [round(random.uniform(2.96, 24.0), 2) for i in range(new_container_num)]
     
@@ -142,9 +144,17 @@ def NewContainerCSV(folderpath, fileName, start_idx, new_container_num, priority
             priority = priority_list[i]
             weight = weight_list[i]
             size = size_list[i]
+            emergency = emerg_list[i]
             
             # Write row to CSV file
-            writer.writerow({'idx': idx, 'seq': seq, 'priority': priority, 'weight': weight, 'size(ft)': size})
+            writer.writerow({'idx': idx, 'seq': seq, 'priority': priority, 'emerg' : emergency, 'weight': weight, 'size(ft)': size})
         
         print('--------- Success Create Input Data : ', fileName ,'---------\n')
-        
+
+# Get Emergency List
+def get_emergency_list(container_num):
+    
+    emergency_num = int(container_num * 0.1)
+    emergency_list = [1 for _ in range(emergency_num)] + [0 for _ in range(container_num - emergency_num)]
+    random.shuffle(emergency_list)
+    return emergency_list
