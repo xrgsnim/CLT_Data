@@ -19,79 +19,6 @@ def get_level(_weights, _level_range):
                 _container_level.append(level_idx)
     return _container_level  
 
-# 오른쪽 -> 왼쪽으로 숫자 채우기
-# def set_geometric_grid(stack_num, height_num, levels):
-    grid = np.zeros((height_num, stack_num))
-    
-    # sort weights in increasing order
-    sorted_levels = sorted(levels)
-    
-    # Height_idx : 0 ~ 4
-    height_idx = height_num - 1
-    stack_idx = 0
-    now_stack_max_idx = stack_idx
-    now_stack_min_idx = stack_idx
-    now_height_max_idx = height_idx
-    now_height_min_idx = height_idx
-    
-    for level_idx in range(len(sorted_levels)):
-        now_level = sorted_levels[level_idx]
-        # print('now_level : ', now_level)
-        if stack_idx == 0:
-            # print('stack_idx is 0')
-            # print('height_idx : ', height_idx, 'stack_idx : ', stack_idx)
-            
-            grid[height_idx][stack_idx] = now_level
-            
-            if height_idx == now_height_min_idx :
-                if now_height_min_idx != 0:
-                    now_height_min_idx -= 1
-                    
-                if now_stack_max_idx != stack_num -1:
-                    now_stack_max_idx += 1
-                
-                    # print('Update now_stack_max_idx : ', now_stack_max_idx)
-                
-                else:
-                    now_height_max_idx -= 1
-                    # print('Update now_height_max_idx : ', now_height_max_idx)
-                    
-                    if height_idx == now_height_min_idx:
-                        now_stack_min_idx += 1
-                        # print('Update now_stack_min_idx : ', now_stack_min_idx)
-         
-            stack_idx = now_stack_max_idx
-            height_idx = now_height_max_idx
-
-
-        
-        else:
-            # print('height_idx : ', height_idx, 'stack_idx : ', stack_idx)
-            grid[height_idx][stack_idx] = now_level
-            
-            if stack_idx != now_stack_min_idx:
-                stack_idx -= 1
-                # print('Update stack_idx : ', stack_idx)
-    
-            if height_idx != now_height_min_idx:
-                height_idx -= 1              
-                # print('Update height_idx : ', height_idx)
-            
-            else:    
-                now_stack_min_idx += 1
-                
-                if now_stack_max_idx == stack_num - 1:
-                    # print('now_stack_max_idx is max') 
-                    now_height_max_idx -= 1
-                else:
-                    now_stack_max_idx += 1
-                    # print('Update now_stack_max_idx : ', now_stack_max_idx)
-                    
-                stack_idx = now_stack_max_idx
-                height_idx = now_height_max_idx          
-    
-    print('geometric grid by level \n', grid, '\n ------------------- \n')
-    return grid
 
 # 왼쪽에서 오른쪽으로 숫자 채우기
 def set_geometric_grid(_stack_idx, _height_idx, min_stack_idx, max_stack_idx, min_height_idx, max_height_idx, sorted_levels, _grid, _set_container_num):
@@ -205,7 +132,7 @@ def get_geometric_center(_m, _h, _weights, _level_num):
         print('There is a problem in dividing levels.')
         
     print('geometric_center : ', _geometric_center_dict, '\n')
-    return _geometric_center_dict
+    return geometric_grid, _geometric_center_dict, container_level
 
 
 
