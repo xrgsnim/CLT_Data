@@ -33,14 +33,14 @@ def get_priority(_priority_list, container_num):
         # random choice in _priority_list
         priority = random.choice(_priority_list)
         
-        if priority != 0:
-            # remove priority from _priority_list
-            _priority_list.remove(priority)
+        # if priority != 0:
+        #     # remove priority from _priority_list
+        #     _priority_list.remove(priority)
         
         container_priority.append(priority)
         
-    return container_priority, _priority_list
-        
+    # return container_priority, _priority_list
+    return container_priority
        
 
 def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_num, tier_num, initial_container_start_idx):
@@ -66,18 +66,17 @@ def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_nu
                     
                     print('--------- Start Create Input Data ---------')
                     print('Initial Container Number : ', initial_con_num, '\nNew Container Number : ', new_con_num)
-                    
-                    # total_con_num = initial_con_num + new_con_num
+
                     group_num = 3
-                    # 0 ~ 0.n
-                    priority_list = [ i for i in range(0, group_num+1)]
+                    # 0 ~ group_num
+                    priority_list = [i for i in range(0, group_num+1)]
                     
-                    initial_con_priority, updated_priority_list = get_priority(priority_list, initial_con_num)
+                    initial_con_priority = get_priority(priority_list, initial_con_num)
                     
                     # Save Input Data for Initial Container
                     saveCSV.InitialContainerCSV(folderPath, initial_container_name, initial_container_start_idx, initial_con_num, stack_num, tier_num, initial_con_priority)
                     
-                    new_con_priority, updated_priority_list = get_priority(updated_priority_list, new_con_num)
+                    new_con_priority = get_priority(priority_list, new_con_num)
                     
                     # Save Input Data for New Container
                     saveCSV.NewContainerCSV(folderPath, new_container_name, new_con_start_idx, new_con_num, new_con_priority)
