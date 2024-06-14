@@ -302,20 +302,22 @@ def main():
         print('!!! Error : Check Data folder !!!')
     
     else:
-        for file_idx in range(initial_file_num):
-            
-            print(f"Now repeat time : {file_idx + 1}\n")
-            
-            initial_file = os.path.join(os.getcwd(), input_folder_path, initial_file_names[file_idx])
-            new_file = os.path.join(os.getcwd(), input_folder_path, new_file_names[file_idx])
-            experiment_idx = experiment_idx_list[file_idx]
-            
-            print('---------------- Info of Input Data ----------------')
-            print('File path of initial container : ', initial_file)
-            print('File path of new container : ', new_file, '\n')
-            
-            for alpha in alpha_list:
-                beta = 1 - alpha            
+        for alpha in alpha_list:
+            beta = 1 - alpha        
+                
+            for file_idx in range(initial_file_num):
+                
+                print(f"Now repeat time : {file_idx + 1}\n")
+                
+                initial_file = os.path.join(os.getcwd(), input_folder_path, initial_file_names[file_idx])
+                new_file = os.path.join(os.getcwd(), input_folder_path, new_file_names[file_idx])
+                experiment_idx = experiment_idx_list[file_idx]
+                
+                print('---------------- Info of Input Data ----------------')
+                print('File path of initial container : ', initial_file)
+                print('File path of new container : ', new_file, '\n')
+                
+                
                 
                 result_folder_path_by_alpha = os.path.join(output_folder_path, f'alpha_{alpha}_beta_{beta}')
                 print(result_folder_path_by_alpha,'\n')
