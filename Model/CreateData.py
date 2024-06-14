@@ -44,7 +44,7 @@ def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_nu
             new_con_num = new_con_num_list[container_num_idx]
             
             new_con_start_idx = initial_container_start_idx + initial_con_num
-            folderPath = 'Data/Initial_' + str(initial_con_num) + '/New_' + str(new_con_num) + '/Input'
+            folderPath = 'Input_Data/Initial_' + str(initial_con_num) + '/New_' + str(new_con_num)
             print('Folder Path : ', folderPath, '\n')
             
             # Check exist folder
