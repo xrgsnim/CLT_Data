@@ -75,7 +75,7 @@ def InitialContainerCSV(folderpath, fileName, start_idx, initial_container_num, 
     
     loc_y_list = [0 for _ in range(initial_container_num)]
 
-    weight_list = [round(random.uniform(2.96, 24.0), 2) for i in range(initial_container_num)]
+    weight_list = [round(random.uniform(5.0, 24.0), 2) for i in range(initial_container_num)]
     
     size_list = [20 for _ in range(initial_container_num)]
     
@@ -97,7 +97,7 @@ def InitialContainerCSV(folderpath, fileName, start_idx, initial_container_num, 
     container_locations = get_random_location(container_locations, sorted_weight, weight_idx, available_stack, tier_num, initial_status, stack_status)
     
     with open(os.path.join(folderpath, fileName + '.csv'), 'w', newline='') as csvfile:
-        fieldnames = ['idx', 'loc_x', 'loc_y', 'loc_z', 'weight', 'priority', 'size(ft)']
+        fieldnames = ['idx', 'loc_x', 'loc_y', 'loc_z', 'weight', 'priority', 'emerg', 'size(ft)']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         
@@ -126,15 +126,15 @@ def NewContainerCSV(folderpath, fileName, start_idx, new_container_num, priority
     # random sequence : 1 ~ new_con_num 
     # sequence_list = random.sample(range(1, new_container_num + 1), new_container_num)
     sequence_list = np.arange(1, new_container_num + 1)
-    emerg_list = get_emergency_list(new_container_num)
+    # emerg_list = get_emergency_list(new_container_num)
     
-    # random weight from 2.96 to 24.0 with up to 2 decimal places
-    weight_list = [round(random.uniform(2.96, 24.0), 2) for i in range(new_container_num)]
+    # random weight from 5.0 to 24.0 with up to 2 decimal places
+    weight_list = [round(random.uniform(5.0, 24.0), 2) for i in range(new_container_num)]
     
     size_list = [20 for _ in range(new_container_num)]
     
     with open(os.path.join(folderpath, fileName + '.csv'), 'w', newline='') as csvfile:
-        fieldnames = ['idx', 'seq', 'priority', 'weight', 'size(ft)']
+        fieldnames = ['idx', 'seq', 'priority', 'emerg', 'weight', 'size(ft)']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         
@@ -144,8 +144,8 @@ def NewContainerCSV(folderpath, fileName, start_idx, new_container_num, priority
             priority = priority_list[i]
             weight = weight_list[i]
             size = size_list[i]
-            emergency = emerg_list[i]
-            
+            # emergency = emerg_list[i]
+            emergency = 0
             # Write row to CSV file
             writer.writerow({'idx': idx, 'seq': seq, 'priority': priority, 'emerg' : emergency, 'weight': weight, 'size(ft)': size})
         

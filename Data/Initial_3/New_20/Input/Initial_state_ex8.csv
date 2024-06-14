@@ -1,4 +1,4 @@
-idx,loc_x,loc_y,loc_z,weight,priority,size(ft)
-1,4,0,0,12.07,1.9,20
-2,5,0,0,5.32,1.0,20
-3,3,0,0,13.01,0.9,20
+idx,loc_x,loc_y,loc_z,weight,priority,emerg,size(ft)
+1,6,0,0,15.83,0,0,20
+2,3,0,0,23.03,0,0,20
+3,2,0,0,10.31,0,0,20
