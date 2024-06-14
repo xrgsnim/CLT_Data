@@ -9,9 +9,6 @@ import re
 model = Model(name = 'IP model')
 
 
-
-
-
 def mip_model(initial_container_file_path, new_container_file_path, m, h, max_diff, _level_num, M, _alpha, _beta, result_folder_path, ex_idx):
 
     initial_container_df = pd.read_csv(initial_container_file_path)
@@ -208,7 +205,9 @@ def main():
             
             for alpha in alpha_list:
                 beta = 1 - alpha            
-                mip_model(initial_file, new_file, stack_num, tier_num, peak_limit, level_num, Big_M, alpha, beta, output_folder_path, experiment_idx)
+                
+                result_folder_path_by_alpha = output_folder_path + 'alpha_' + str(alpha) + '_beta_' + str(beta) + '/'
+                mip_model(initial_file, new_file, stack_num, tier_num, peak_limit, level_num, Big_M, alpha, beta, result_folder_path_by_alpha, experiment_idx)
 
         
     
@@ -216,8 +215,8 @@ def main():
 # Parameters
 folder_path = 'Data/Initial_5/New_10/'
 
-stack_num = 6
-tier_num = 5
+stack_num = 10
+tier_num = 6
 peak_limit = 2
 
 # Big M

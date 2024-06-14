@@ -8,8 +8,8 @@ repeat_num = 1
 initial_con_num_list = [5]
 new_con_num_list = [10]
 
-stack_num = 6
-tier_num = 5
+stack_num = 10
+tier_num = 6
 initial_con_start_idx = 1
 priority_group_num = 5
 
