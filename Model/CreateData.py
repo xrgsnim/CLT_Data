@@ -3,15 +3,6 @@ import os
 import random
 
 
-# # Number of initial Container
-# initial_con_num = 5
-
-# # number of new container
-# new_con_num = 10
-
-# initial_con_num_list = [3, 5, 7]
-# new_con_num_list = [10, 15, 20]
-#--------------------------------------------
 # repeat time
 repeat_num = 30
 
@@ -25,22 +16,22 @@ stack_num = 10
 tier_num = 6
 initial_con_start_idx = 1
 
-def get_priority(_priority_list, container_num):
+def get_priority(_group_list, container_num):
     
-    container_priority = []
+    container_group = []
     
     for i in range(container_num):
         # random choice in _priority_list
-        priority = random.choice(_priority_list)
+        group = random.choice(_group_list)
         
         # if priority != 0:
         #     # remove priority from _priority_list
         #     _priority_list.remove(priority)
         
-        container_priority.append(priority)
+        container_group.append(group)
         
     # return container_priority, _priority_list
-    return container_priority
+    return container_group
        
 
 def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_num, tier_num, initial_container_start_idx):
@@ -74,15 +65,16 @@ def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_nu
                 # priority_list = [i for i in range(0, group_num+1)]
                                     
                 # initial_con_priority = get_priority(priority_list, initial_con_num)
-                initial_con_priority = [0 for _ in range(initial_con_num)]
+                initial_con_group = [0 for _ in range(initial_con_num)]
                 
                 # Save Input Data for Initial Container
-                saveCSV.InitialContainerCSV(folderPath, initial_container_name, initial_container_start_idx, initial_con_num, stack_num, tier_num, initial_con_priority)
+                saveCSV.InitialContainerCSV(folderPath, initial_container_name, initial_container_start_idx, initial_con_num, stack_num, tier_num, initial_con_group)
                 
                 # new_con_priority = get_priority(priority_list, new_con_num)
-                new_con_priority = [0 for _ in range(new_con_num)]
+                new_con_group = [0 for _ in range(new_con_num)]
                 # Save Input Data for New Container
-                saveCSV.NewContainerCSV(folderPath, new_container_name, new_con_start_idx, new_con_num, new_con_priority)   
+                saveCSV.NewContainerCSV(folderPath, new_container_name, new_con_start_idx, new_con_num, new_con_group)   
+                
             # for new_con_num in new_con_num_list:
                 
             #     new_con_start_idx = initial_container_start_idx + initial_con_num

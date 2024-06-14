@@ -5,6 +5,8 @@ import figure
 import pandas as pd
 import os
 import re
+import csv
+
 
 model = Model(name = 'IP model')
 
@@ -133,9 +135,21 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     # Solve the model
     solution = model.solve()
 
+    result = []
+
     print('\n------------------', 'Solution', '------------------')
     if solution:
-        model.print_solution()
+        
+        # save to text file
+        solution_file_path = result_folder_path + 'Solution_ex' + str(ex_idx)
+        
+        if not os.path.exists(solution_file_path):
+            os.makedirs(solution_file_path)
+            print('Create File : ', solution_file_path)
+
+        with open(solution_file_path, 'w') as f:
+            # write solution in txt file
+            f.write(model.print_solution())
         
         fig_container_info = []
         
@@ -146,20 +160,27 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
                         container_original_weight = all_container_weight[i-1]
                         container_sequence = all_container_sequence[i-1]
                         container_priority = all_container_priority[i-1]
-                        container_size = all_container_size[i-1]
+                        container_emergency = all_container_emerg[i]
                         container_relocation = r[j,k].solution_value
-                        print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',container_original_weight, 'sequence : ', container_sequence, 'priority : ', container_priority, ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
+                        container_size = all_container_size[i-1]
+                        
+                        print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',container_original_weight, 'sequence : ', container_sequence, 'priority : ', container_priority, 
+                                ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
                         fig_container_info.append((container_original_weight, j, k))
                         # Output data : container index, loc_x, loc_y, loc_z, weight, sequence, priority, relocation, size(ft) 
-                        # result.append((i, j, 0, k, container_original_weight, container_sequence, container_priority, container_relocation, container_size))
+                        result.append((i, j, 0, k, container_original_weight, container_sequence, container_priority, container_emergency, container_relocation, container_size))
         print('-------------------------')
-        # Save fig
-        fig_file_path = result_folder_path + 'Configuration_ex' + str(ex_idx)
-        figure.draw_figure(m, h, fig_container_info)
         
+        # Save fig
+        fig_file_path = result_folder_path + 'Configuration_ex' + str(ex_idx) + '.png'
+        
+        figure.draw_figure(m, h, fig_container_info, fig_file_path)
+                
     else:
         print('No solution found')
- 
+    
+    return result
+    
  
 def get_input_file(_folder_path):
     # Read all csv file and divide by initial and new container
@@ -180,6 +201,53 @@ def get_input_file(_folder_path):
     print('Done Read All CSV Files\n')
     return initial_file_list, new_file_list, ex_num
 
+
+
+def save_output_file(_file_path, _result):
+    
+    with open(_file_path, 'w', newline='') as csvfile:
+        
+        fieldnames = ['idx', 'loc_x', 'loc_y', 'loc_z', 'weight', 'seq', 'priority', 'emerg', 'reloc', 'size(ft)']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for i in range(len(_result)):
+            idx = _result[i][0]
+            loc_x = _result[i][1]
+            loc_y = _result[i][2]
+            loc_z = _result[i][3]
+            weight = _result[i][4]
+            sequence = _result[i][5]
+            priority = _result[i][6]
+            emergency = _result[i][7]
+            relocation = _result[i][8]
+            size = _result[i][9]
+            
+            # Write row to CSV file
+            writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight, 'seq' : sequence, 'priority' : priority, 
+                                'emerg' : emergency, 'reloc' : relocation, 'size(ft)': size})
+        
+        print('--------- Success Create Output Data ---------\n', _file_path ,'\n')
+    
+# def solution_txt(_file_path, _solution):
+    
+#     if not os.path.exists(_file_path):
+#         os.makedirs(_file_path)
+#         print('Create File : ', _file_path)
+    
+#     # save txt file
+#     # status = _solution.get_status()
+#     # status_str = _solution.get_status_strint()
+#     # objective_value = _solution.get_objective_value()
+#     # variable_values = _solution.get_values()
+    
+#     with open(_file_path, 'w') as f:
+#         _solution.solution
+        # f.write(f"Solution status : {status} ({status_str})\n")
+        # f.write(f"Objective value : {objective_value}\n")
+        # f.write(f"Decision Variables : \n")
+        # for var_name, var_value in zip(model.variables.get_names)
+        
 def main():
     
     input_folder_path = folder_path + 'Input/'
@@ -207,9 +275,15 @@ def main():
                 beta = 1 - alpha            
                 
                 result_folder_path_by_alpha = output_folder_path + 'alpha_' + str(alpha) + '_beta_' + str(beta) + '/'
-                mip_model(initial_file, new_file, stack_num, tier_num, peak_limit, level_num, Big_M, alpha, beta, result_folder_path_by_alpha, experiment_idx)
-
-        
+                model_result = mip_model(initial_file, new_file, stack_num, tier_num, peak_limit, level_num, Big_M, alpha, beta, result_folder_path_by_alpha, experiment_idx)
+                
+                if len(model_result) != 0:
+                    # save solution to csv file
+                    output_file_path = result_folder_path_by_alpha + 'Configuration_ex' + str(experiment_idx) +'.csv'
+                    save_output_file(output_file_path, model_result)
+                else:
+                    print('!!! There is no solution !!!')
+     
     
     
 # Parameters

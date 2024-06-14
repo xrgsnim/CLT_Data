@@ -69,7 +69,7 @@ def get_random_location(container_loc_list, weight_list, now_weight_idx, availab
 
     
 # Create CSV file
-def InitialContainerCSV(folderpath, fileName, start_idx, initial_container_num, stack_num, tier_num, priority_list):
+def InitialContainerCSV(folderpath, fileName, start_idx, initial_container_num, stack_num, tier_num, group_list):
     
     # Column Name : idx,loc_x,loc_y,loc_z,weight,size(ft)  
     
@@ -97,7 +97,7 @@ def InitialContainerCSV(folderpath, fileName, start_idx, initial_container_num, 
     container_locations = get_random_location(container_locations, sorted_weight, weight_idx, available_stack, tier_num, initial_status, stack_status)
     
     with open(os.path.join(folderpath, fileName + '.csv'), 'w', newline='') as csvfile:
-        fieldnames = ['idx', 'loc_x', 'loc_y', 'loc_z', 'weight', 'priority', 'emerg', 'size(ft)']
+        fieldnames = ['idx', 'loc_x', 'loc_y', 'loc_z', 'weight', 'group', 'emerg', 'size(ft)']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         
@@ -107,21 +107,21 @@ def InitialContainerCSV(folderpath, fileName, start_idx, initial_container_num, 
             loc_y = loc_y_list[i]
             loc_z = container_locations[i][1]
             weight = weight_list[i]
-            priority = priority_list[i]
+            group = group_list[i]
             size = size_list[i]
             emergency = 0
             
             # Write row to CSV file
-            writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight, 'priority' : priority, 'emerg' : emergency, 'size(ft)': size})
+            writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight, 'group' : group, 'emerg' : emergency, 'size(ft)': size})
         
         print('--------- Success Create Input Data : ', fileName ,'---------\n')
 
 
 
 # Create CSV file
-def NewContainerCSV(folderpath, fileName, start_idx, new_container_num, priority_list):
+def NewContainerCSV(folderpath, fileName, start_idx, new_container_num, group_list):
     
-    # Column Name : idx,seq,priority,weight,size(ft)
+    # Column Name : idx,seq,group,weight,size(ft)
     
     # random sequence : 1 ~ new_con_num 
     # sequence_list = random.sample(range(1, new_container_num + 1), new_container_num)
@@ -134,20 +134,20 @@ def NewContainerCSV(folderpath, fileName, start_idx, new_container_num, priority
     size_list = [20 for _ in range(new_container_num)]
     
     with open(os.path.join(folderpath, fileName + '.csv'), 'w', newline='') as csvfile:
-        fieldnames = ['idx', 'seq', 'priority', 'emerg', 'weight', 'size(ft)']
+        fieldnames = ['idx', 'seq', 'group', 'emerg', 'weight', 'size(ft)']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         
         for i in range(len(sequence_list)):
             idx = start_idx + i
             seq = sequence_list[i]
-            priority = priority_list[i]
+            group = group_list[i]
             weight = weight_list[i]
             size = size_list[i]
             # emergency = emerg_list[i]
             emergency = 0
             # Write row to CSV file
-            writer.writerow({'idx': idx, 'seq': seq, 'priority': priority, 'emerg' : emergency, 'weight': weight, 'size(ft)': size})
+            writer.writerow({'idx': idx, 'seq': seq, 'group': group, 'emerg' : emergency, 'weight': weight, 'size(ft)': size})
         
         print('--------- Success Create Input Data : ', fileName ,'---------\n')
 

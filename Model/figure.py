@@ -4,6 +4,13 @@ import os
 
 
 def draw_figure(_column, _row, _data, _file_path):
+    
+    # Check exist folder
+    if not os.path.exists(_file_path):
+        os.makedirs(_file_path)
+        print('Create File : ', _file_path, '\n')
+        
+        
     plt.figure(figsize=(_column, _row))
     plt.imshow(np.ones((_column, _row)), cmap='Greys', origin='lower', extent=[0, _column, 0, _row], alpha=0.5)  # White background with grid at 0.5 intensity
     
