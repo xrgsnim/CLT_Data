@@ -4,13 +4,14 @@ import random
 
 
 # repeat time
-repeat_num = 30
+repeat_num = 2
 
-# initial_con_num_list = [5, 10, 15]
-# new_con_num_list = [10, 15, 20]
+initial_con_num_list = [0, 5, 10]
+new_con_num_list = [30, 10, 15]
 
-initial_con_num_list = [0, 5, 10, 15, 20]
-new_con_num_list = [50, 45, 40, 35, 30]
+# initial_con_num_list = [0, 5, 10, 15, 20]
+# new_con_num_list = [50, 45, 40, 35, 30]
+
 
 stack_num = 10
 tier_num = 6
@@ -44,7 +45,7 @@ def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_nu
             new_con_num = new_con_num_list[container_num_idx]
             
             new_con_start_idx = initial_container_start_idx + initial_con_num
-            folderPath = 'Input_Data/Initial_' + str(initial_con_num) + '/New_' + str(new_con_num)
+            folderPath = 'Sample/Initial_' + str(initial_con_num) + '/New_' + str(new_con_num)
             print('Folder Path : ', folderPath, '\n')
             
             # Check exist folder
