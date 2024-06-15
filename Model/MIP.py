@@ -405,8 +405,8 @@ def main():
 # input_folder_path = f'Sample\\{folder_name}\\'
 # output_folder_path = f'Sample_Output_Data\\MIP\\{folder_name}\\'
 
-input_folder = 'Input_Data'
-output_folder = 'Output_Data_1'
+input_folder = 'Input_Data_20'
+output_folder = 'Output_Data_20'
 
 stack_num = 10
 tier_num = 6
@@ -415,7 +415,7 @@ peak_limit = 2
 # Big M
 Big_M = 100
 
-alpha_list = [0, 0.5, 1]
+alpha_list = [0.5, 1, 0]
 
 # Get Geometric centers
 level_num = 9
