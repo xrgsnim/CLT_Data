@@ -61,15 +61,15 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     print(f'Number of new container : {new_container_num}')
     print(f'Total number of containers : {n}\n')
     
-    print(f'Level_num : {_level_num}')
-    print(f'Container_level : {container_level}')
-    print(f"ideal_configuration : \n {ideal_config}")
-    print(f"Centroid : {centroid}\n")
+    # print(f'Level_num : {_level_num}')
+    # print(f'Container_level : {container_level}')
+    # print(f"ideal_configuration : \n {ideal_config}")
+    # print(f"Centroid : {centroid}\n")
     
-    print(f'Original weight : {all_container_weights}')
-    print(f'Group : {all_container_group}')
-    print(f'Sequence : {all_container_seq}')
-    print(f'Scroe : {all_container_score}\n')
+    # print(f'Original weight : {all_container_weights}')
+    # print(f'Group : {all_container_group}')
+    # print(f'Sequence : {all_container_seq}')
+    # print(f'Scroe : {all_container_score}\n')
     
 
     if n != len(all_container_weights):
@@ -187,22 +187,22 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
         solution_file_path = os.path.join(result_folder_path, f'Solution_ex{ex_idx}.txt')
         
         with open(solution_file_path, 'w') as f:
-            f.write(f'Number of initial container : {initial_container_num}')
-            f.write(f'Number of new container : {new_container_num}')
+            f.write(f'Number of initial container : {initial_container_num}\n')
+            f.write(f'Number of new container : {new_container_num}\n')
             f.write(f'Total number of containers : {n}\n')
             
-            f.write(f'Level_num : {_level_num}')
-            f.write(f'Container_level : {container_level}')
-            f.write(f"ideal_configuration : \n {ideal_config}")
+            f.write(f'Level_num : {_level_num}\n')
+            f.write(f'Container_level : {container_level}\n')
+            f.write(f"ideal_configuration : \n {ideal_config}\n")
             f.write(f"Centroid : {centroid}\n")
             
             
             f.write(f"Repeat number : {ex_idx}\n")
-            f.write(f'Original weight : {all_container_weights}')
-            f.write(f'Group : {all_container_group}')
-            f.write(f'Sequence : {all_container_seq}')
+            f.write(f'Original weight : {all_container_weights}\n')
+            f.write(f'Group : {all_container_group}\n')
+            f.write(f'Sequence : {all_container_seq}\n')
             f.write(f'Scroe : {all_container_score}\n')
-          
+            f.write("---------------------------------\n")
             f.write(model.solution.to_string())
         
         fig_container_info = []
