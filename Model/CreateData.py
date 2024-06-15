@@ -3,21 +3,19 @@ import os
 import random
 
 
-# repeat time
+stack_num = 6
+tier_num = 5
+container_num = 25
 repeat_num = 30
 
-initial_con_num_list = [0, 5, 10]
-new_con_num_list = [20, 15, 10]
+initial_con_num_list = [0, 5, 7, 10, 15]
+new_con_num_list = []
+for _initial_num in initial_con_num_list:
+    new_con_num_list.append(container_num - _initial_num)
 
-# initial_con_num_list = [0, 5, 10, 15, 20]
-# new_con_num_list = [50, 45, 40, 35, 30]
-
-
-stack_num = 10
-tier_num = 6
 initial_con_start_idx = 1
 
-folder_name = 'Input_Data_20'
+folder_name = f'Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
 
 def get_priority(_group_list, container_num):
     

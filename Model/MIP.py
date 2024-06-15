@@ -395,27 +395,27 @@ def main():
                         else:
                             print('!!! Already exist output file !!!')
                             print(output_file_path, '\n')
-                
-                
-     
-    
+         
     
 # Parameters
 # folder_name = 'Initial_5\\New_10'
 # input_folder_path = f'Sample\\{folder_name}\\'
 # output_folder_path = f'Sample_Output_Data\\MIP\\{folder_name}\\'
 
-input_folder = 'Input_Data_20'
-output_folder = 'Output_Data_20'
 
-stack_num = 10
-tier_num = 6
+stack_num = 6
+tier_num = 5
+container_num = 25
 peak_limit = 2
+
+input_folder = f'Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
+output_folder = f'Output_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
+
 
 # Big M
 Big_M = 100
 
-alpha_list = [0.5, 1, 0]
+alpha_list = [1, 0.5, 0]
 
 # Get Geometric centers
 level_num = 9
