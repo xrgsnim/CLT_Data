@@ -59,16 +59,6 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     print(f'Number of new container : {new_container_num}')
     print(f'Total number of containers : {n}\n')
     
-    # print(f'Level_num : {_level_num}')
-    # print(f'Container_level : {container_level}')
-    # print(f"ideal_configuration : \n {ideal_config}")
-    # print(f"Centroid : {centroid}\n")
-    
-    # print(f'Original weight : {all_container_weights}')
-    # print(f'Group : {all_container_group}')
-    # print(f'Sequence : {all_container_seq}')
-    # print(f'Scroe : {all_container_score}\n')
-    
 
     if n != len(all_container_weights):
         print("Error : Check number of all weights")
@@ -93,8 +83,14 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     d = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd')
     d_x = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd_x')
     d_y = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd_y')
-
-    # max_d = model.continuous_var(name = 'max_d')
+    
+    normalized_r = model.continuous_var_dict([(j,k) for j in range(1, m+1) for k in range(h)], lb = 0, name = 'normalized_r')
+    min_r = model.continuous_var(name = 'min_r')
+    max_r = model.continuous_var(name = 'max_r')
+    
+    normalized_d = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'normalized_d')
+    min_d = model.continuous_var(name = 'min_d')
+    max_d = model.continuous_var(name = 'max_d')
 
     # Constraints
     # Constraint 1 : Container i must be assigned to exactly one stack and one tier
@@ -124,7 +120,11 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
         model.add_constraint(d_y[i] >= sum(x[i,j,k] * k for j in range(1, m+1) for k in range(h)) - centroid[level][1])
         model.add_constraint(d_y[i] >= -(sum(x[i,j,k] * k for j in range(1, m+1) for k in range(h)) - centroid[level][1]))
         
-
+        # Define min_d, max_d
+        model.add_constraint(min_d <= d[i])
+        model.add_constraint(max_d >= d[i])
+        
+        
     # # Constraint 6 : prevent peak stacks
     for j in range(1, m):
         model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(1, n+1)) - sum(x[i,j+1,k] for k in range(h) for i in range(1, n+1)) <= max_diff)
@@ -152,6 +152,9 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
         for k in range(h):
             model.add_constraint(sum(x[i,j,k] for i in range(1, n+1)) >= r[j,k])
             
+            # Define min_r, max_r
+            model.add_constraint(min_r <= r[j,k])
+            model.add_constraint(max_r >= r[j,k])
     
     # Set Location of Initial Container
     for idx in range(initial_container_num):
@@ -162,11 +165,19 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
         model.add_constraint(x[initial_container_idx, loc_x, loc_z] == 1)
         # allocate relocation of initial container
         model.add_constraint(r[loc_x, loc_z] == 0)
-        
+
+
+    # define normalized r, d
+    for j in range(1, m+1):
+        for k in range(h):
+            model.add_constraint(normalized_r[j,k] == (r[j,k] - min_r) / (max_r - min_r))
+    
+    for i in range(1, n+1):
+        model.add_constraint(normalized_d[i] == (d[i] - min_d) / (max_d - min_d))
     
     # Objective Function
     # model.minimize(_alpha * sum(r[j,k] for j in range(1, m+1) for k in range(h)) + _beta * sum(d[i] for i in range(1, n+1)))
-    model.minimize(_alpha * sum(r[j,k] for j in range(1, m+1) for k in range(h)) + _beta * sum(d[i] for i in new_container_df['idx']))
+    model.minimize(_alpha * sum(normalized_r[j,k] for j in range(1, m+1) for k in range(h)) + _beta * sum(normalized_d[i] for i in range(1, n+1)))
     
 
     # print('------------------', 'Information of model', '------------------')
@@ -193,6 +204,7 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     if model_solution:
         print('I got a Solution')
         
+        
         # save to text file
         solution_file_path = os.path.join(result_folder_path, f'Solution_ex{ex_idx}.txt')
         
@@ -213,6 +225,10 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
             f.write(f'Sequence : {all_container_seq}\n')
             f.write(f'Scroe : {all_container_score}\n')
             f.write(f"Time taken to solve the MIP model : {elapsed_time:.4f} seconds\n")
+            
+            f.write(f'min_r : {min_r.solution_value}, max_r : {max_r.solution_value}\n')
+            f.write(f'min_d : {min_d.solution_value}, max_d : {max_d.solution_value}\n')
+
             f.write("---------------------------------\n")
             f.write(model.solution.to_string())
         
@@ -229,7 +245,7 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
                         container_emergency = all_container_emerg[i-1]
                         container_relocation = r[j,k].solution_value
                         container_size = all_container_size[i-1]
-                        
+                    
                         # print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',container_original_weight, ', group : ', container_group, ', sequence : ', container_sequence, 
                         #         'emergency : ', container_emergency, ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
                         fig_container_info.append((container_original_weight, j, k))
@@ -240,7 +256,7 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
         # Save fig
         fig_file_path = os.path.join(result_folder_path, f'Configuration_ex{ex_idx}.png')
         
-        figure.draw_figure(m, h, fig_container_info, fig_file_path)
+        # figure.draw_figure(m, h, fig_container_info, fig_file_path)
                 
     else:
         print('No solution found')
@@ -385,31 +401,23 @@ def main():
                             model_result = mip_model(initial_file, new_file, stack_num, tier_num, peak_limit, level_num, Big_M, alpha, beta, result_folder_path_by_alpha, experiment_idx)
                             print('---------------- Done mip model ----------------')        
                             
-                            if len(model_result) != 0:
-                                # save solution to csv file
-                                save_output_file(output_file_path, model_result)
+                            # if len(model_result) != 0:
+                            #     # save solution to csv file
+                            #     save_output_file(output_file_path, model_result)
                             
-                            else:
-                                print('!!! There is no solution !!!')        
+                            # else:
+                            #     print('!!! There is no solution !!!')        
 
                         else:
                             print('!!! Already exist output file !!!')
                             print(output_file_path, '\n')
                 
-                
-     
-    
-    
-# Parameters
-# folder_name = 'Initial_5\\New_10'
-# input_folder_path = f'Sample\\{folder_name}\\'
-# output_folder_path = f'Sample_Output_Data\\MIP\\{folder_name}\\'
 
-input_folder = 'Input_Data_30'
-output_folder = 'Output_Data_30'
+input_folder = 'Sample'
+output_folder = 'Sample_output'
 
-stack_num = 10
-tier_num = 6
+stack_num = 6
+tier_num = 5
 peak_limit = 2
 
 # Big M
