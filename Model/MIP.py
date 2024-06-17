@@ -30,13 +30,11 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     new_container_size = new_container_df['size(ft)'].tolist()
     
     
-    
     initial_container_num = len(initial_container_weights)
     new_container_num = len(new_container_weights)
     
     # total number of containers
     n = initial_container_num + new_container_num
-
     
     # Combine two list
         
@@ -93,8 +91,6 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     d = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd')
     d_x = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd_x')
     d_y = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd_y')
-
-    # max_d = model.continuous_var(name = 'max_d')
 
     # Constraints
     # Constraint 1 : Container i must be assigned to exactly one stack and one tier
@@ -405,7 +401,7 @@ def main():
 
 stack_num = 6
 tier_num = 5
-container_num = 25
+container_num = 20
 peak_limit = 2
 
 input_folder = f'Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'

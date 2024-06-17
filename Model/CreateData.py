@@ -5,7 +5,7 @@ import random
 
 stack_num = 6
 tier_num = 5
-container_num = 25
+container_num = 15
 repeat_num = 30
 
 initial_con_num_list = [0, 5, 7, 10, 15]
