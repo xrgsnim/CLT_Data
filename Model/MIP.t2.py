@@ -121,7 +121,7 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
                 # model.add_constraint(sum(all_container_group[i-1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(all_container_group[i-1] * x[i,j,_k] for i in range(1, n+1)))
                 
                 # Constraint : sequence
-                # model.add_constraint(sum(all_container_seq[i-1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(all_container_seq[i-1] * x[i,j,_k] for i in range(1, n+1)))
+                model.add_constraint(sum(all_container_seq[i-1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(all_container_seq[i-1] * x[i,j,_k] for i in range(1, n+1)))
                 
                 # Constraint : Emergency
                 model.add_constraint(sum(all_container_emerg[i-1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(all_container_emerg[i-1] * x[i,j,_k] for i in range(1, n+1)))
@@ -396,12 +396,12 @@ peak_limit = 2
 container_num = 25
 
 input_folder = f'Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
-output_folder = f'Output_Data_without_seq_{container_num}(stack_{stack_num}_tier_{tier_num})'
+output_folder = f'Output_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
 
 # Big M
 Big_M = 100
 
-alpha_list = [0.5, 1, 0]
+alpha_list = [0, 0.5, 1]
 
 # Get Geometric centers
 level_num = 9

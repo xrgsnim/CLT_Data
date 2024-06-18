@@ -16,5 +16,5 @@ Repeat number : 3
 Original weight : [18.23, 12.33, 19.29, 19.33, 20.04, 14.36, 17.54, 22.66, 16.5, 14.47, 21.35, 19.43, 23.68, 15.89, 13.64]
 Sequence : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Emergency : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Time taken to solve the MIP model : 0.0078 seconds
+Time taken to solve the MIP model : 0.0055 seconds
 ---------------------------------

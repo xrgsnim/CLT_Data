@@ -14,12 +14,11 @@ Repeat number : 23
 Original weight : [9.47, 8.84, 20.55, 10.95, 13.34, 20.16, 7.68, 15.02, 23.76, 21.77, 6.35, 12.18, 9.22, 14.14, 5.89]
 Sequence : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 Emergency : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Time taken to solve the MIP model : 0.5405 seconds
+Time taken to solve the MIP model : 0.1215 seconds
 min_d : 0, max_d : 9
 ---------------------------------
 solution for: IP model
 objective: 0
-status: OPTIMAL_SOLUTION(2)
 x_1_4_0=1
 x_2_6_0=1
 x_3_6_1=1
@@ -28,13 +27,13 @@ x_5_4_1=1
 x_6_5_1=1
 x_7_3_0=1
 x_8_4_2=1
-x_9_5_2=1
+x_9_6_2=1
 x_10_4_3=1
-x_11_2_0=1
-x_12_2_1=1
+x_11_1_0=1
+x_12_1_1=1
 x_13_3_1=1
-x_14_2_2=1
-x_15_1_0=1
+x_14_3_2=1
+x_15_2_0=1
 d_1=3.000
 d_2=5.000
 d_3=6.000
@@ -43,12 +42,12 @@ d_5=2.000
 d_6=5.000
 d_7=3.000
 d_8=5.000
-d_9=2.000
+d_9=3.000
 d_10=2.000
 d_11=2.000
 d_12=3.000
 d_13=1.000
-d_14=4.000
+d_14=3.000
 d_15=2.000
 d_x_1=2.000
 d_x_2=4.000
@@ -58,10 +57,11 @@ d_x_5=1.000
 d_x_6=3.000
 d_x_7=2.000
 d_x_8=3.000
+d_x_9=1.000
 d_x_11=1.000
 d_x_12=1.000
 d_x_13=1.000
-d_x_14=2.000
+d_x_14=1.000
 d_x_15=1.000
 d_y_1=1.000
 d_y_2=1.000
@@ -85,10 +85,10 @@ normalized distance of container 5 : 0.2222222222222222
 normalized distance of container 6 : 0.5555555555555556
 normalized distance of container 7 : 0.3333333333333333
 normalized distance of container 8 : 0.5555555555555556
-normalized distance of container 9 : 0.2222222222222222
+normalized distance of container 9 : 0.3333333333333333
 normalized distance of container 10 : 0.2222222222222222
 normalized distance of container 11 : 0.2222222222222222
 normalized distance of container 12 : 0.3333333333333333
 normalized distance of container 13 : 0.1111111111111111
-normalized distance of container 14 : 0.4444444444444444
+normalized distance of container 14 : 0.3333333333333333
 normalized distance of container 15 : 0.2222222222222222

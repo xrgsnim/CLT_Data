@@ -14,12 +14,11 @@ Repeat number : 11
 Original weight : [16.34, 11.45, 10.61, 7.54, 11.72, 12.96, 22.31, 18.04, 18.19, 16.76, 23.92, 13.94, 10.41, 10.39, 14.09]
 Sequence : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5]
 Emergency : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Time taken to solve the MIP model : 0.0005 seconds
+Time taken to solve the MIP model : 0.0060 seconds
 min_d : 0, max_d : 9
 ---------------------------------
 solution for: IP model
 objective: 4.05556
-status: OPTIMAL_SOLUTION(2)
 x_1_3_0=1
 x_2_2_0=1
 x_3_1_0=1

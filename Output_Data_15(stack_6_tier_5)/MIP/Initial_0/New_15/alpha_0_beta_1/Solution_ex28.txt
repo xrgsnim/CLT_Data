@@ -14,12 +14,11 @@ Repeat number : 28
 Original weight : [5.1, 10.14, 17.89, 12.85, 10.37, 20.33, 8.8, 14.62, 9.53, 5.62, 16.26, 17.09, 10.27, 16.13, 21.74]
 Sequence : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 Emergency : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Time taken to solve the MIP model : 0.7318 seconds
+Time taken to solve the MIP model : 0.3200 seconds
 min_d : 0, max_d : 9
 ---------------------------------
 solution for: IP model
 objective: 1.87037
-status: OPTIMAL_SOLUTION(2)
 x_1_1_0=1
 x_2_3_0=1
 x_3_3_1=1
@@ -38,8 +37,6 @@ x_15_5_0=1
 r_1_1=1
 r_1_2=1
 r_1_3=1
-r_2_0=1
-r_2_1=1
 r_2_2=1
 r_2_3=1
 r_3_1=1
@@ -89,13 +86,13 @@ normalized distance of container 2 : 0.3055555555555556
 normalized distance of container 3 : 0.1111111111111111
 normalized distance of container 4 : 0.1111111111111111
 normalized distance of container 5 : 0.1388888888888889
-normalized distance of container 6 : 0.11111111111110954
+normalized distance of container 6 : 0.11111111111110951
 normalized distance of container 7 : 0.0
 normalized distance of container 8 : 0.1111111111111111
 normalized distance of container 9 : 0.08333333333333333
 normalized distance of container 10 : 0.16666666666666508
 normalized distance of container 11 : 0.14814814814814767
 normalized distance of container 12 : 0.22222222222222177
-normalized distance of container 13 : 0.08333333333333333
+normalized distance of container 13 : 0.08333333333333331
 normalized distance of container 14 : 0.11111111111111116
 normalized distance of container 15 : 0.1111111111111111

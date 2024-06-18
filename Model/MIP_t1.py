@@ -393,7 +393,7 @@ def main():
 stack_num = 6
 tier_num = 5
 peak_limit = 2
-container_num = 15
+container_num = 20
 
 input_folder = f'Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
 output_folder = f'Output_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
@@ -401,7 +401,7 @@ output_folder = f'Output_Data_{container_num}(stack_{stack_num}_tier_{tier_num})
 # Big M
 Big_M = 100
 
-alpha_list = [0.5, 1, 0]
+alpha_list = [0, 0.5, 1]
 
 # Get Geometric centers
 level_num = 9

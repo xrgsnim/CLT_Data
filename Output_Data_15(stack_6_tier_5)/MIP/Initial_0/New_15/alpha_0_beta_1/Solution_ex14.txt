@@ -14,12 +14,11 @@ Repeat number : 14
 Original weight : [5.36, 9.84, 22.51, 16.56, 16.67, 22.25, 12.82, 14.19, 23.11, 18.66, 15.95, 5.8, 12.19, 13.95, 11.11]
 Sequence : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 Emergency : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Time taken to solve the MIP model : 0.7268 seconds
+Time taken to solve the MIP model : 0.3276 seconds
 min_d : 0, max_d : 9
 ---------------------------------
 solution for: IP model
 objective: 2
-status: OPTIMAL_SOLUTION(2)
 x_1_1_0=1
 x_2_3_0=1
 x_3_3_1=1
@@ -35,8 +34,6 @@ x_12_1_1=1
 x_13_1_2=1
 x_14_2_3=1
 x_15_1_3=1
-r_1_0=1
-r_1_1=1
 r_1_2=1
 r_1_3=1
 r_2_1=1
