@@ -61,7 +61,7 @@ def get_random_location(container_loc_list, weight_list, now_weight_idx, availab
         print('Initial State : \n', initial_state, '\n')
         print('Location of containers : ', container_loc_list, '\n')
     
-    return container_loc_list
+    return container_loc_list, initial_state
     
 
 
@@ -69,7 +69,7 @@ def get_random_location(container_loc_list, weight_list, now_weight_idx, availab
 
     
 # Create CSV file
-def InitialContainerCSV(folderpath, fileName, start_idx, initial_container_num, stack_num, tier_num, group_list):
+def InitialContainerCSV(folderpath, fileName, ex_idx, start_idx, initial_container_num, stack_num, tier_num, group_list):
     
     # Column Name : idx,loc_x,loc_y,loc_z,weight,size(ft)  
     
@@ -94,8 +94,15 @@ def InitialContainerCSV(folderpath, fileName, start_idx, initial_container_num, 
     # available stack from 0 to stack_num - 1
     container_locations = []
     
-    container_locations = get_random_location(container_locations, sorted_weight, weight_idx, available_stack, tier_num, initial_status, stack_status)
+    container_locations, _initial_state = get_random_location(container_locations, sorted_weight, weight_idx, available_stack, tier_num, initial_status, stack_status)
     
+    # save to text file
+    Initial_state_file_path = os.path.join(folderpath, f'Initial_state_ex{ex_idx}.txt')
+    
+    with open(Initial_state_file_path, 'w') as f:
+        f.write(f'Initial state : \n{_initial_state}')
+            
+
     with open(os.path.join(folderpath, fileName + '.csv'), 'w', newline='') as csvfile:
         fieldnames = ['idx', 'loc_x', 'loc_y', 'loc_z', 'weight', 'group', 'emerg', 'size(ft)']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -115,7 +122,6 @@ def InitialContainerCSV(folderpath, fileName, start_idx, initial_container_num, 
             writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight, 'group' : group, 'emerg' : emergency, 'size(ft)': size})
         
         print('--------- Success Create Input Data : ', fileName ,'---------\n')
-
 
 
 # Create CSV file

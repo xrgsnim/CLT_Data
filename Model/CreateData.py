@@ -5,10 +5,10 @@ import random
 
 stack_num = 6
 tier_num = 5
-container_num = 15
+container_num = 10
 repeat_num = 30
 
-initial_con_num_list = [0, 5, 7, 10, 15]
+initial_con_num_list = [0, 3, 5]
 new_con_num_list = []
 for _initial_num in initial_con_num_list:
     new_con_num_list.append(container_num - _initial_num)
@@ -70,7 +70,7 @@ def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_nu
                 initial_con_group = [0 for _ in range(initial_con_num)]
                 
                 # Save Input Data for Initial Container
-                saveCSV.InitialContainerCSV(folderPath, initial_container_name, initial_container_start_idx, initial_con_num, stack_num, tier_num, initial_con_group)
+                saveCSV.InitialContainerCSV(folderPath, initial_container_name, repeat_num_idx, initial_container_start_idx, initial_con_num, stack_num, tier_num, initial_con_group)
                 
                 # new_con_priority = get_priority(priority_list, new_con_num)
                 new_con_group = [0 for _ in range(new_con_num)]

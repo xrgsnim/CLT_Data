@@ -58,93 +58,88 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     ideal_config, centroid, container_level = gm.get_geometric_center(m, h, all_container_weights, _level_num)
     
     
-    
     print(' --------------- Start MIP model --------------- ')
     print(f'Number of initial container : {initial_container_num}')
     print(f'Number of new container : {new_container_num}')
     print(f'Total number of containers : {n}\n')
     
-    
     # Decision Variables
-    x = model.binary_var_dict([(i,j,k) for i in range(1, n+1) for j in range(1, m+1) for k in range(h)], lb = 0, ub = 1, name = 'x')
-    r = model.binary_var_dict([(j,k) for j in range(1, m+1) for k in range(h)], lb = 0, ub = 1, name = 'r')
+    x = model.binary_var_dict([(i,j,k) for i in range(n) for j in range(m) for k in range(h)], lb = 0, ub = 1, name = 'x')
+    r = model.binary_var_dict([(j,k) for j in range(m) for k in range(h)], lb = 0, ub = 1, name = 'r')
 
-    d = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd')
-    d_x = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd_x')
-    d_y = model.continuous_var_dict([i for i in range(1, n+1)], lb = 0, name = 'd_y')
+    d = model.continuous_var_dict([i for i in range(n)], lb = 0, name = 'd')
+    d_x = model.continuous_var_dict([i for i in range(n)], lb = 0, name = 'd_x')
+    d_y = model.continuous_var_dict([i for i in range(n)], lb = 0, name = 'd_y')
 
     # Constraints
     # Constraint 1 : Container i must be assigned to exactly one stack and one tier
-    for i in range(1, n+1):
-        model.add_constraint(sum(x[i,j,k] for j in range(1, m+1) for k in range(h)) == 1)
+    for i in range(n):
+        model.add_constraint(sum(x[i,j,k] for j in range(m) for k in range(h)) == 1)
 
     # Constraint 2 : one slot can only have one container
-    for j in range(1, m+1):
+    for j in range(m):
         for k in range(h):
-            model.add_constraint(sum(x[i,j,k] for i in range(1, n+1)) <= 1)
+            model.add_constraint(sum(x[i,j,k] for i in range(n)) <= 1)
         
     # constraint 3 : the hight of stack j must be less than or equal to h
-    for j in range(1, m+1):
-        model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(1, n+1)) <= h)
+    for j in range(m):
+        model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(n)) <= h)
         
     # constraint 4 : you can't stack a container on slot k if there is no container on slot k-1
-    for j in range(1, m+1):
+    for j in range(m):
         for k in range(h-1):
-            model.add_constraint(sum(x[i,j,k] for i in range(1, n+1)) >= sum(x[i,j,k+1] for i in range(1, n+1)))
+            model.add_constraint(sum(x[i,j,k] for i in range(n)) >= sum(x[i,j,k+1] for i in range(n)))
             
     # constraint 5 : define d_i
-    for i in range(1, n+1):
-        level = container_level[i-1]
+    for i in range(n):
         model.add_constraint(d[i] == d_x[i] + d_y[i])
-        model.add_constraint(d_x[i] >= sum(x[i,j,k] * j for j in range(1, m+1) for k in range(h)) - centroid[level][0])
-        model.add_constraint(d_x[i] >= -(sum(x[i,j,k] * j for j in range(1, m+1) for k in range(h)) - centroid[level][0]))
-        model.add_constraint(d_y[i] >= sum(x[i,j,k] * k for j in range(1, m+1) for k in range(h)) - centroid[level][1])
-        model.add_constraint(d_y[i] >= -(sum(x[i,j,k] * k for j in range(1, m+1) for k in range(h)) - centroid[level][1]))
+        model.add_constraint(d_x[i] >= sum(x[i,j,k] * j for j in range(m) for k in range(h)) - centroid[container_level[i]][0])
+        model.add_constraint(d_x[i] >= -(sum(x[i,j,k] * j for j in range(m) for k in range(h)) - centroid[container_level[i]][0]))
+        model.add_constraint(d_y[i] >= sum(x[i,j,k] * k for j in range(m) for k in range(h)) - centroid[container_level[i]][1])
+        model.add_constraint(d_y[i] >= -(sum(x[i,j,k] * k for j in range(m) for k in range(h)) - centroid[container_level[i]][1]))
         
         
     # # Constraint 6 : prevent peak stacks
-    for j in range(1, m):
-        model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(1, n+1)) - sum(x[i,j+1,k] for k in range(h) for i in range(1, n+1)) <= max_diff)
-        model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(1, n+1)) - sum(x[i,j+1,k] for k in range(h) for i in range(1, n+1)) >= -max_diff)
+    for j in range(0, m -1):
+        model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(n)) - sum(x[i,j+1,k] for k in range(h) for i in range(n)) <= max_diff)
+        model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(n)) - sum(x[i,j+1,k] for k in range(h) for i in range(n)) >= -max_diff)
             
         
     # Constraint 7 : define r_jk
-    for j in range(1, m+1):
+    for j in range(m):
         for k in range(h-1):
             for _k in range(k+1, h):
                 # model.add_constraint((sum((all_container_score[i-1] * x[i,j,k]) for i in range(1, n+1)) - sum((all_container_score[i-1] * x[i,j,_k]) for i in range(1, n+1)))/ M <= M * (1- sum(x[i,j,_k] for i in range(1, n+1))) + r[j,k])
-                model.add_constraint((sum((all_container_weights[i-1] * x[i,j,k]) for i in range(1, n+1)) - sum((all_container_weights[i-1] * x[i,j,_k]) for i in range(1, n+1)))/ M <= M * (1- sum(x[i,j,_k] for i in range(1, n+1))) + r[j,k])
+                model.add_constraint((sum(all_container_weights[i] * x[i,j,k] for i in range(n)) - sum(all_container_weights[i] * x[i,j,_k] for i in range(n)))/ M <= (M * (1- sum(x[i,j,_k] for i in range(n)))) + r[j,k])
                 
-                model.add_constraint(r[j,k] <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1)))+ r[j,_k])            
+                model.add_constraint(r[j,k] <= (M * (1 - sum(x[i,j,_k] for i in range(n))))+ r[j,_k])            
                 
                 # Constraint : Group
                 # model.add_constraint(sum(all_container_group[i-1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(all_container_group[i-1] * x[i,j,_k] for i in range(1, n+1)))
                 
                 # Constraint : sequence
-                model.add_constraint(sum(all_container_seq[i-1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(all_container_seq[i-1] * x[i,j,_k] for i in range(1, n+1)))
+                model.add_constraint(sum(all_container_seq[i] * x[i,j,k] for i in range(n)) <= (M * (1 - sum(x[i,j,_k] for i in range(n)))) + sum(all_container_seq[i] * x[i,j,_k] for i in range(n)))
                 
                 # Constraint : Emergency
-                model.add_constraint(sum(all_container_emerg[i-1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(all_container_emerg[i-1] * x[i,j,_k] for i in range(1, n+1)))
+                model.add_constraint(sum(all_container_emerg[i] * x[i,j,k] for i in range(n)) <= (M * (1 - sum(x[i,j,_k] for i in range(n)))) + sum(all_container_emerg[i] * x[i,j,_k] for i in range(n)))
                 
                 
-    for j in range(1, m+1):
+    for j in range(m):
         for k in range(h):
-            model.add_constraint(sum(x[i,j,k] for i in range(1, n+1)) >= r[j,k])
+            model.add_constraint(sum(x[i,j,k] for i in range(n)) >= r[j,k])
             
         
     # Set Location of Initial Container
     for idx in range(initial_container_num):
-        initial_container_idx = initial_container_df['idx'][idx]
-        loc_x = initial_container_df['loc_x'][idx]
+        initial_container_idx = initial_container_df['idx'][idx] - 1
+        loc_x = initial_container_df['loc_x'][idx] -1
         loc_z = initial_container_df['loc_z'][idx]
         # allocate location of initial container
         model.add_constraint(x[initial_container_idx, loc_x, loc_z] == 1)
-        # allocate relocation of initial container
-        model.add_constraint(r[loc_x, loc_z] == 0)
         
     # Objective Function
     # model.minimize(_alpha * sum(r[j,k] for j in range(1, m+1) for k in range(h)) + _beta * sum(d[i] for i in range(1, n+1)))
-    model.minimize(_alpha * sum(r[j,k] for j in range(1, m+1) for k in range(h)) + _beta * sum((d[i] - min_d) / (max_d - min_d) for i in range(1, n+1)))
+    model.minimize(_alpha * sum(r[j,k] for j in range(m) for k in range(h)) + _beta * sum((d[i] - min_d) / (max_d - min_d) for i in range(n)))
     
 
     # print('------------------', 'Information of model', '------------------')
@@ -200,30 +195,30 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
             f.write("---------------------------------\n")
             f.write(model.solution.to_string())
 
-            for i in range(1, n+1):
+            for i in range(n):
                 f.write(f'normalized distance of container {i} : {(d[i].solution_value - min_d) / (max_d - min_d)}\n')
                 
         fig_container_info = []
         
-        for i in range(1, n+1):
-            for j in range(1, m+1):
+        for i in range(n):
+            for j in range(m):
                 for k in range(h):
                     if x[i,j,k].solution_value >= 0.99:
-                        container_original_weight = all_container_weights[i-1]
+                        container_original_weight = all_container_weights[i]
                         # container_group = all_container_group[i-1]
                         # container_score = all_container_score[i-1]
-                        container_sequence = all_container_seq[i-1]
-                        container_emergency = all_container_emerg[i-1]
+                        container_sequence = all_container_seq[i]
+                        container_emergency = all_container_emerg[i]
                         container_relocation = r[j,k].solution_value
-                        container_size = all_container_size[i-1]
+                        container_size = all_container_size[i]
                         
                         # print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',container_original_weight, ', group : ', container_group, ', sequence : ', container_sequence, 
                         #         'emergency : ', container_emergency, ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
-                        fig_container_info.append((container_original_weight, j, k))
+                        fig_container_info.append((container_original_weight, j + 1, k))
                         
                         # Output data : container index, loc_x, loc_y, loc_z, weight, group, score, sequence, relocation, size(ft) 
                         # result.append((i, j, 0, k, container_original_weight, container_group, container_score, container_sequence, container_emergency, container_relocation, container_size))
-                        result.append((i, j, 0, k, container_original_weight, container_sequence, container_emergency, container_relocation, container_size))
+                        result.append((i + 1 , j + 1, 0, k, container_original_weight, container_sequence, container_emergency, container_relocation, container_size))
         
         # Save fig
         fig_file_path = os.path.join(result_folder_path, f'Configuration_ex{ex_idx}.png')
@@ -261,8 +256,6 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
         
     return result
 
-
-
 def get_scroe_list(weights, _group):
     
     scores = []
@@ -280,14 +273,18 @@ def get_input_file(_folder_path):
     ex_num = []
         
     for file_name in os.listdir(_folder_path):
-        if file_name.startswith('Initial'):
-            initial_file_list.append(file_name)
-        elif file_name.startswith('Container'):
-            new_file_list.append(file_name)
-        
-        match = re.search(r'ex(\d{1,2})', file_name)
-        if match:
-            ex_num.append(int(match.group(1)))
+        if file_name.endswith('.csv'):
+            if file_name.startswith('Initial'):
+                initial_file_list.append(file_name)
+            elif file_name.startswith('Container'):
+                new_file_list.append(file_name)
+            
+                match = re.search(r'ex(\d{1,2})', file_name)
+                if match:
+                    ex_num.append(int(match.group(1)))
+
+    # sort ex_num
+    ex_num.sort()
 
     print('Done Read All CSV Files')
     print('Total Number of CSV Files : ', len(initial_file_list),'\n')
@@ -322,8 +319,7 @@ def save_output_file(_file_path, _result):
             writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight, 'seq' : sequence,
                                 'emerg' : emergency, 'reloc' : relocation, 'size(ft)': size})
         print('\n--------- Success Create Output Data ---------\n', _file_path ,'\n')
-    
-        
+         
 def main():
     
     # find all folders in folder_name
@@ -345,7 +341,7 @@ def main():
             initial_file_names, new_file_names, experiment_idx_list = get_input_file(input_folder_path)
             
             initial_file_num = len(initial_file_names)
-            
+
             if initial_file_num != len(new_file_names):
                 print('!!! Error : Check Data folder !!!')
             
@@ -355,13 +351,16 @@ def main():
                     
                     result_folder_path_by_alpha = os.path.join(output_folder_path, f'alpha_{alpha}_beta_{beta}')          
                     
-                        
+                    print('!!!!!! alpha : ', alpha)
+                    
                     for file_idx in range(initial_file_num):
                         
                         initial_file = os.path.join(os.getcwd(), input_folder_path, initial_file_names[file_idx])
                         new_file = os.path.join(os.getcwd(), input_folder_path, new_file_names[file_idx])
                         experiment_idx = experiment_idx_list[file_idx]
-                        
+                        # print(experiment_idx)
+                        initial_file = os.path.join(os.getcwd(), input_folder_path, f'Initial_state_ex{experiment_idx}.csv')
+                        new_file = os.path.join(os.getcwd(), input_folder_path, f'Container_ex{experiment_idx}.csv')
                                     
                         print('---------------- Info of Input Data ----------------')
                         print('File path of initial container : ', initial_file)
@@ -371,7 +370,7 @@ def main():
                         
                         
                         output_file_path = os.path.join(result_folder_path_by_alpha, f'Configuration_ex{experiment_idx}.csv')
-
+                        print('Output File Path : ', output_file_path, '\n')
                         # Check exist file in folder
                         if not os.path.exists(output_file_path):
                             model_result = mip_model(initial_file, new_file, stack_num, tier_num, peak_limit, level_num, Big_M, alpha, beta, result_folder_path_by_alpha, experiment_idx)
@@ -393,7 +392,7 @@ def main():
 stack_num = 6
 tier_num = 5
 peak_limit = 2
-container_num = 25
+container_num = 15
 
 input_folder = f'Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
 output_folder = f'Output_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'

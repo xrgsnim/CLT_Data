@@ -68,8 +68,8 @@ def get_geometric_dict(_grid):
 
     for _h in range(_grid.shape[0]):
         for _s in range(_grid.shape[1]):
-            # stack : 1 ~ stack_num, height : 0 ~ tier_num - 1 
-            location = (_s + 1, _grid.shape[0] - _h -1)
+            # stack : 0 ~ stack_num, height : 0 ~ tier_num - 1 
+            location = (_s, _grid.shape[0] - _h -1)
         
             if _grid[_h][_s] not in _dict.keys():
                 # _dict[_grid[_h][_s]] = [(_h + 1, _s +1)]
@@ -145,7 +145,7 @@ def get_geometric_center(_m, _h, _weights, _level_num):
 # # Capacity of tiers
 # h = 5
 
-# w = np.arange(1, 31)
+# w = np.arange(1, 9)
 
 # height_idx = h - 1
 # stack_idx = 0
@@ -156,4 +156,6 @@ def get_geometric_center(_m, _h, _weights, _level_num):
 # set_container_num = 0
 # grid = np.zeros((h, m))
 
+# get_geometric_center(m, h, w, level_num)
 # geometric_grid = set_geometric_grid(stack_idx, height_idx, stack_min_idx, stack_max_idx, height_min_idx, height_max_idx, w, grid, set_container_num)
+# 
