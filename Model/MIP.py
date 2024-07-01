@@ -100,7 +100,7 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
         
         
     # # Constraint 6 : prevent peak stacks
-    for j in range(0, m -1):
+    for j in range(m-1):
         model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(n)) - sum(x[i,j+1,k] for k in range(h) for i in range(n)) <= max_diff)
         model.add_constraint(sum(x[i,j,k] for k in range(h) for i in range(n)) - sum(x[i,j+1,k] for k in range(h) for i in range(n)) >= -max_diff)
             
