@@ -5,10 +5,10 @@ import random
 
 stack_num = 6
 tier_num = 5
-container_num = 10
+container_num = 25
 repeat_num = 30
 
-initial_con_num_list = [0, 3, 5]
+initial_con_num_list = [0, 5, 7, 10, 15]
 new_con_num_list = []
 for _initial_num in initial_con_num_list:
     new_con_num_list.append(container_num - _initial_num)

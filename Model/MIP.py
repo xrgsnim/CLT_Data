@@ -392,7 +392,7 @@ def main():
 stack_num = 6
 tier_num = 5
 peak_limit = 2
-container_num = 15
+container_num = 25
 
 input_folder = f'Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
 output_folder = f'Output_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
