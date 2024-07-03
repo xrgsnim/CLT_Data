@@ -392,7 +392,7 @@ def main():
 stack_num = 6
 tier_num = 5
 peak_limit = 2
-container_num = 25
+container_num = 23
 
 input_folder = f'Ungrouped/Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
 output_folder = f'Ungrouped/Output_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'

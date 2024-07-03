@@ -59,7 +59,8 @@ def get_random_data(repeat_num, initial_con_num_list, new_con_num_list, stack_nu
                 print('Initial Container Number : ', initial_con_num, '\nNew Container Number : ', new_con_num)
 
                 # 0 ~ group_num
-                group_list = [i for i in range(0, _group_num+1)]
+                # group_list = [i for i in range(0, _group_num+1)]
+                group_list = [0]
                                     
                 initial_con_group = get_group(group_list, initial_con_num)
                 # initial_con_group = [0 for _ in range(initial_con_num)]
