@@ -12,14 +12,14 @@ ideal_configuration :
 Centroid : {6: (1.0, 0.0), 1: (0.0, 0.0), 3: (0.0, 1.0), 8: (0.0, 2.0), 9: (1.0, 1.0)}
 Repeat number : 15
 Original weight : [18.59, 12.09, 15.2, 21.07, 22.03]
+Group : [0, 0, 0, 0, 0]
 Sequence : [0, 0, 1, 2, 3]
-Emergency : [0, 0, 0, 0, 0]
-Time taken to solve the MIP model : 0.0020 seconds
+Scroe : [18.59, 12.09, 15.2, 21.07, 22.03]
+Time taken to solve the MIP model : 0.0065 seconds
 min_d : 0, max_d : 9
 ---------------------------------
 solution for: IP model
 objective: 0
-status: OPTIMAL_SOLUTION(2)
 x_0_0_0=1
 x_1_3_0=1
 x_2_1_0=1

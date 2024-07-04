@@ -12,14 +12,14 @@ ideal_configuration :
 Centroid : {9: (4.0, 0.0), 3: (0.6666666666666666, 1.0), 6: (1.5, 2.0), 5: (2.0, 1.0), 8: (3.0, 1.0), 2: (0.0, 1.0), 7: (1.5, 2.5), 1: (0.0, 0.0), 4: (1.0, 1.6666666666666667)}
 Repeat number : 27
 Original weight : [21.95, 9.98, 16.34, 13.86, 20.06, 8.46, 18.28, 5.38, 19.16, 11.63, 10.78, 13.18, 12.76, 15.88, 9.56]
+Group : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Sequence : [0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8]
-Emergency : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Time taken to solve the MIP model : 0.0171 seconds
+Scroe : [21.95, 9.98, 16.34, 13.86, 20.06, 8.46, 18.28, 5.38, 19.16, 11.63, 10.78, 13.18, 12.76, 15.88, 9.56]
+Time taken to solve the MIP model : 0.0495 seconds
 min_d : 0, max_d : 9
 ---------------------------------
 solution for: IP model
 objective: 3.44444
-status: OPTIMAL_SOLUTION(2)
 x_0_2_0=1
 x_1_5_0=1
 x_2_1_0=1
@@ -32,10 +32,15 @@ x_8_0_3=-0
 x_8_2_3=1
 x_9_0_2=1
 x_10_1_1=1
+x_10_3_0=0
+x_10_3_1=-0
 x_11_1_2=1
 x_12_1_3=1
 x_13_0_3=1
 x_13_2_3=-0
+x_13_3_0=-0
+x_13_3_2=-0
+x_14_0_3=-0
 x_14_3_1=1
 r_0_0=1
 r_0_1=1
@@ -86,6 +91,7 @@ d_y_9=0.333
 d_y_11=0.333
 d_y_12=1.333
 d_y_13=1.000
+d_y_14=-0.000
 normalized distance of container 0 : 0.2222222222222222
 normalized distance of container 1 : 0.5925925925925926
 normalized distance of container 2 : 0.2777777777777778
@@ -96,8 +102,8 @@ normalized distance of container 6 : 0.1111111111111111
 normalized distance of container 7 : 0.3333333333333333
 normalized distance of container 8 : 0.11111111111111062
 normalized distance of container 9 : 0.1481481481481478
-normalized distance of container 10 : 0.03703703703703651
+normalized distance of container 10 : 0.03703703703703655
 normalized distance of container 11 : 0.03703703703703649
-normalized distance of container 12 : 0.14814814814814814
-normalized distance of container 13 : 0.27777777777779195
-normalized distance of container 14 : 0.2592592592592584
+normalized distance of container 12 : 0.1481481481481476
+normalized distance of container 13 : 0.2777777777777905
+normalized distance of container 14 : 0.2592592592592499

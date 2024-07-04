@@ -12,14 +12,14 @@ ideal_configuration :
 Centroid : {5: (0.0, 3.0), 4: (2.0, 0.0), 1: (0.3333333333333333, 0.3333333333333333), 2: (0.5, 1.5), 6: (1.0, 2.0), 9: (3.0, 0.0), 8: (2.0, 1.0)}
 Repeat number : 11
 Original weight : [15.54, 14.14, 6.79, 7.06, 6.71, 8.82, 18.37, 8.9, 22.83, 22.37]
+Group : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Sequence : [0, 0, 0, 1, 2, 3, 4, 5, 6, 7]
-Emergency : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Time taken to solve the MIP model : 0.0155 seconds
+Scroe : [15.54, 14.14, 6.79, 7.06, 6.71, 8.82, 18.37, 8.9, 22.83, 22.37]
+Time taken to solve the MIP model : 0.0490 seconds
 min_d : 0, max_d : 9
 ---------------------------------
 solution for: IP model
 objective: 2.38889
-status: OPTIMAL_SOLUTION(2)
 x_0_1_0=1
 x_1_1_1=1
 x_2_1_2=1
@@ -66,6 +66,6 @@ normalized distance of container 3 : 0.22222222222222177
 normalized distance of container 4 : 0.07407407407407302
 normalized distance of container 5 : 0.11111111111111012
 normalized distance of container 6 : 0.2222222222222222
-normalized distance of container 7 : 0.11111111111110875
+normalized distance of container 7 : 0.11111111111110872
 normalized distance of container 8 : 0.0
 normalized distance of container 9 : 0.1111111111111111

@@ -12,14 +12,14 @@ ideal_configuration :
 Centroid : {1: (0.4, 0.8), 8: (2.8, 2.0), 2: (1.0, 1.6666666666666667), 7: (2.5, 1.5), 6: (1.0, 3.0), 9: (5.0, 0.0), 3: (1.6666666666666667, 1.6666666666666667)}
 Repeat number : 2
 Original weight : [7.67, 22.23, 9.16, 10.57, 21.76, 7.66, 19.69, 11.18, 7.86, 17.64, 21.6, 22.89, 21.93, 10.64, 12.21, 19.17, 12.98, 9.23, 12.88, 21.37]
+Group : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Sequence : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-Emergency : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Time taken to solve the MIP model : 1.0394 seconds
+Scroe : [7.67, 22.23, 9.16, 10.57, 21.76, 7.66, 19.69, 11.18, 7.86, 17.64, 21.6, 22.89, 21.93, 10.64, 12.21, 19.17, 12.98, 9.23, 12.88, 21.37]
+Time taken to solve the MIP model : 1.4805 seconds
 min_d : 0, max_d : 9
 ---------------------------------
 solution for: IP model
 objective: 1.87778
-status: OPTIMAL_SOLUTION(2)
 x_0_0_0=1
 x_1_4_0=1
 x_2_1_0=1
@@ -94,8 +94,8 @@ d_y_17=1.200
 d_y_18=1.333
 d_y_19=2.000
 normalized distance of container 0 : 0.13333333333333336
-normalized distance of container 1 : 0.35555555555555557
-normalized distance of container 2 : 0.15555555555555492
+normalized distance of container 1 : 0.3555555555555554
+normalized distance of container 2 : 0.15555555555555467
 normalized distance of container 3 : 0.07407407407407408
 normalized distance of container 4 : 0.4666666666666662
 normalized distance of container 5 : 0.2666666666666652
@@ -103,7 +103,7 @@ normalized distance of container 6 : 0.22222222222222182
 normalized distance of container 7 : 0.03703703703703651
 normalized distance of container 8 : 0.0666666666666662
 normalized distance of container 9 : 0.0
-normalized distance of container 10 : 0.13333333333333286
+normalized distance of container 10 : 0.13333333333333336
 normalized distance of container 11 : 0.1111111111111111
 normalized distance of container 12 : 0.022222222222221748
 normalized distance of container 13 : 0.1851851851851852

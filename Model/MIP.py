@@ -20,15 +20,14 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     
     new_container_sequence = new_container_df['seq'].tolist()
     
-    # initial_container_group = initial_container_df['group'].tolist()
-    # new_container_group = new_container_df['group'].tolist()
+    initial_container_group = initial_container_df['group'].tolist()
+    new_container_group = new_container_df['group'].tolist()
     
-    initial_container_emerg = initial_container_df['emerg'].tolist()
-    new_container_emerg = new_container_df['emerg'].tolist()
+    # initial_container_emerg = initial_container_df['emerg'].tolist()
+    # new_container_emerg = new_container_df['emerg'].tolist()
     
     initial_container_size = initial_container_df['size(ft)'].tolist()
     new_container_size = new_container_df['size(ft)'].tolist()
-    
     
     
     initial_container_num = len(initial_container_weights)
@@ -41,22 +40,17 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     max_d = m - 1 + h - 1
     
     # Combine two list
-        
     all_container_weights = initial_container_weights + new_container_weights
 
     initial_container_sequence = [0 for _ in range(initial_container_num)]
     all_container_seq = initial_container_sequence + new_container_sequence
     
-    # all_container_group = initial_container_group + new_container_group
-    
-    all_container_emerg = initial_container_emerg + new_container_emerg
+    all_container_group = initial_container_group + new_container_group
+
     all_container_size = initial_container_size + new_container_size
     
-    # all_container_score = get_scroe_list(all_container_weights, all_container_group)
-    # ideal_config, centroid, container_level = gm.get_geometric_center(m, h, all_container_score, _level_num)
-    
-    ideal_config, centroid, container_level = gm.get_geometric_center(m, h, all_container_weights, _level_num)
-    
+    all_container_score = get_scroe_list(all_container_weights, all_container_group)
+    ideal_config, centroid, container_level = gm.get_geometric_center(m, h, all_container_score, _level_num)
     
     print(' --------------- Start MIP model --------------- ')
     print(f'Number of initial container : {initial_container_num}')
@@ -109,20 +103,13 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
     for j in range(m):
         for k in range(h-1):
             for _k in range(k+1, h):
-                # model.add_constraint((sum((all_container_score[i-1] * x[i,j,k]) for i in range(1, n+1)) - sum((all_container_score[i-1] * x[i,j,_k]) for i in range(1, n+1)))/ M <= M * (1- sum(x[i,j,_k] for i in range(1, n+1))) + r[j,k])
-                model.add_constraint((sum(all_container_weights[i] * x[i,j,k] for i in range(n)) - sum(all_container_weights[i] * x[i,j,_k] for i in range(n)))/ M <= (M * (1- sum(x[i,j,_k] for i in range(n)))) + r[j,k])
+                model.add_constraint((sum((all_container_score[i] * x[i,j,k]) for i in range(n)) - sum((all_container_score[i] * x[i,j,_k]) for i in range(n)))/ M <= (M * (1- sum(x[i,j,_k] for i in range(n)))) + r[j,k])
                 
                 model.add_constraint(r[j,k] <= (M * (1 - sum(x[i,j,_k] for i in range(n))))+ r[j,_k])            
                 
-                # Constraint : Group
-                # model.add_constraint(sum(all_container_group[i-1] * x[i,j,k] for i in range(1, n+1)) <= M * (1 - sum(x[i,j,_k] for i in range(1, n+1))) + sum(all_container_group[i-1] * x[i,j,_k] for i in range(1, n+1)))
-                
                 # Constraint : sequence
                 model.add_constraint(sum(all_container_seq[i] * x[i,j,k] for i in range(n)) <= (M * (1 - sum(x[i,j,_k] for i in range(n)))) + sum(all_container_seq[i] * x[i,j,_k] for i in range(n)))
-                
-                # Constraint : Emergency
-                model.add_constraint(sum(all_container_emerg[i] * x[i,j,k] for i in range(n)) <= (M * (1 - sum(x[i,j,_k] for i in range(n)))) + sum(all_container_emerg[i] * x[i,j,_k] for i in range(n)))
-                
+            
                 
     for j in range(m):
         for k in range(h):
@@ -138,7 +125,6 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
         model.add_constraint(x[initial_container_idx, loc_x, loc_z] == 1)
         
     # Objective Function
-    # model.minimize(_alpha * sum(r[j,k] for j in range(1, m+1) for k in range(h)) + _beta * sum(d[i] for i in range(1, n+1)))
     model.minimize(_alpha * sum(r[j,k] for j in range(m) for k in range(h)) + _beta * sum((d[i] - min_d) / (max_d - min_d) for i in range(n)))
     
 
@@ -183,13 +169,12 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
             
             f.write(f"Repeat number : {ex_idx}\n")
             f.write(f'Original weight : {all_container_weights}\n')
-            # f.write(f'Group : {all_container_group}\n')
+            f.write(f'Group : {all_container_group}\n')
             f.write(f'Sequence : {all_container_seq}\n')
-            f.write(f'Emergency : {all_container_emerg}\n')
-            # f.write(f'Scroe : {all_container_score}\n')
+            # f.write(f'Emergency : {all_container_emerg}\n')
+            f.write(f'Scroe : {all_container_score}\n')
             f.write(f"Time taken to solve the MIP model : {elapsed_time:.4f} seconds\n")
-            
-            # f.write(f'min_r : {min_r.solution_value}, max_r : {max_r.solution_value}\n')
+        
             f.write(f'min_d : {min_d}, max_d : {max_d}\n')
 
             f.write("---------------------------------\n")
@@ -205,20 +190,17 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
                 for k in range(h):
                     if x[i,j,k].solution_value >= 0.99:
                         container_original_weight = all_container_weights[i]
-                        # container_group = all_container_group[i-1]
-                        # container_score = all_container_score[i-1]
+                        container_group = all_container_group[i]
+                        container_score = all_container_score[i]
                         container_sequence = all_container_seq[i]
-                        container_emergency = all_container_emerg[i]
                         container_relocation = r[j,k].solution_value
                         container_size = all_container_size[i]
                         
-                        # print(x[i,j,k], ' = ', x[i,j,k].solution_value, ', weight : ',container_original_weight, ', group : ', container_group, ', sequence : ', container_sequence, 
-                        #         'emergency : ', container_emergency, ', distance : ', d[i].solution_value, ', relocation : ', r[j,k].solution_value)
                         fig_container_info.append((container_original_weight, j + 1, k))
                         
                         # Output data : container index, loc_x, loc_y, loc_z, weight, group, score, sequence, relocation, size(ft) 
-                        # result.append((i, j, 0, k, container_original_weight, container_group, container_score, container_sequence, container_emergency, container_relocation, container_size))
-                        result.append((i + 1 , j + 1, 0, k, container_original_weight, container_sequence, container_emergency, container_relocation, container_size))
+                        result.append((i + 1 , j + 1, 0, k, container_original_weight, container_group, container_score, container_sequence, container_relocation, container_size))
+                        
         
         # Save fig
         fig_file_path = os.path.join(result_folder_path, f'Configuration_ex{ex_idx}.png')
@@ -245,10 +227,9 @@ def mip_model(initial_container_file_path, new_container_file_path, m, h, max_di
             
             f.write(f"Repeat number : {ex_idx}\n")
             f.write(f'Original weight : {all_container_weights}\n')
-            # f.write(f'Group : {all_container_group}\n')
+            f.write(f'Group : {all_container_group}\n')
             f.write(f'Sequence : {all_container_seq}\n')
-            f.write(f'Emergency : {all_container_emerg}\n')
-            # f.write(f'Scroe : {all_container_score}\n')
+            f.write(f'Scroe : {all_container_score}\n')
             f.write(f"Time taken to solve the MIP model : {elapsed_time:.4f} seconds\n")
             f.write("---------------------------------\n")
             
@@ -261,9 +242,8 @@ def get_scroe_list(weights, _group):
     scores = []
     
     for i in range(len(weights)):
-        weight = weights[i] + _group[i]
+        weight = weights[i] + (_group[i] * 100)
         scores.append(weight)
-    
     return scores
  
 def get_input_file(_folder_path):
@@ -294,8 +274,7 @@ def save_output_file(_file_path, _result):
     
     with open(_file_path, 'w', newline='') as csvfile:
         
-        # fieldnames = ['idx', 'loc_x', 'loc_y', 'loc_z', 'weight', 'group', 'score', 'seq', 'emerg', 'reloc', 'size(ft)']
-        fieldnames = ['idx', 'loc_x', 'loc_y', 'loc_z', 'weight', 'seq', 'emerg', 'reloc', 'size(ft)']
+        fieldnames = ['idx', 'loc_x', 'loc_y', 'loc_z', 'weight', 'group', 'score', 'seq', 'reloc', 'size(ft)']
         
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
@@ -306,18 +285,15 @@ def save_output_file(_file_path, _result):
             loc_y = _result[i][2]
             loc_z = _result[i][3]
             weight = _result[i][4]
-            # group = _result[i][5]
-            # score = _result[i][6]
-            sequence = _result[i][5]
-            emergency = _result[i][6]
-            relocation = _result[i][7]
-            size = _result[i][8]
+            group = _result[i][5]
+            score = _result[i][6]
+            sequence = _result[i][7]
+            relocation = _result[i][8]
+            size = _result[i][9]
             
             # Write row to CSV file
-            # writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight, 'group' : group, 'score' : score, 'seq' : sequence,
-            #                     'emerg' : emergency, 'reloc' : relocation, 'size(ft)': size})
-            writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight, 'seq' : sequence,
-                                'emerg' : emergency, 'reloc' : relocation, 'size(ft)': size})
+            writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight,
+                                'group' : group, 'score' : score, 'seq' : sequence, 'reloc' : relocation, 'size(ft)': size})
         print('\n--------- Success Create Output Data ---------\n', _file_path ,'\n')
          
 def main():
