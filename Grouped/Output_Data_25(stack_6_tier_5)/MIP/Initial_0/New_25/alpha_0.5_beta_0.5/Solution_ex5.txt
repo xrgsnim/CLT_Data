@@ -1,0 +1,160 @@
+Number of initial container : 0
+Number of new container : 25
+Total number of containers : 25
+Level_num : 9
+Container_level : [1, 6, 6, 8, 3, 1, 8, 1, 6, 8, 8, 1, 3, 1, 3, 6, 8, 6, 8, 8, 9, 6, 1, 8, 1]
+ideal_configuration : 
+ [[6. 6. 8. 9. 0. 0.]
+ [1. 6. 8. 8. 0. 0.]
+ [1. 3. 6. 8. 8. 0.]
+ [1. 1. 3. 6. 8. 8.]
+ [1. 1. 1. 3. 6. 8.]]
+Centroid : {1: (0.5714285714285714, 1.0), 6: (1.8333333333333333, 2.3333333333333335), 8: (3.5, 2.0), 3: (2.0, 1.0), 9: (3.0, 4.0)}
+Repeat number : 5
+Original weight : [13.3, 8.14, 8.2, 11.45, 19.3, 9.5, 16.78, 5.11, 10.23, 18.91, 19.91, 11.41, 10.26, 5.56, 11.58, 12.84, 19.22, 20.92, 16.54, 15.94, 21.8, 10.72, 16.15, 20.97, 17.89]
+Group : [0, 2, 2, 3, 1, 0, 3, 0, 2, 3, 3, 0, 1, 0, 1, 2, 3, 2, 3, 3, 3, 2, 0, 3, 0]
+Sequence : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+Scroe : [13.3, 208.14, 208.2, 311.45, 119.3, 9.5, 316.78, 5.11, 210.23, 318.91, 319.91, 11.41, 110.26, 5.56, 111.58, 212.84, 319.22, 220.92000000000002, 316.54, 315.94, 321.8, 210.72, 16.15, 320.97, 17.89]
+Time taken to solve the MIP model : 1.1738 seconds
+min_d : 0, max_d : 9
+---------------------------------
+solution for: IP model
+objective: 2.21693
+x_0_2_0=1
+x_1_2_1=1
+x_2_2_2=1
+x_3_5_0=1
+x_4_4_0=1
+x_5_0_0=0
+x_5_1_0=1
+x_6_4_1=1
+x_7_0_0=1
+x_7_0_1=0
+x_7_1_0=0
+x_8_1_3=0
+x_8_2_3=1
+x_9_4_2=1
+x_10_4_3=1
+x_11_1_1=1
+x_12_3_0=1
+x_13_0_0=0
+x_13_0_1=1
+x_13_0_2=0
+x_13_1_2=-0
+x_14_3_1=1
+x_15_1_2=1
+x_15_2_3=0
+x_15_2_4=-0
+x_16_1_3=1
+x_16_3_2=-0
+x_16_4_4=0
+x_17_1_3=-0
+x_17_3_2=1
+x_18_3_3=1
+x_18_3_4=-0
+x_19_5_1=1
+x_20_3_4=1
+x_20_4_4=-0
+x_21_1_3=-0
+x_21_2_4=1
+x_22_0_1=0
+x_22_0_2=1
+x_22_1_2=0
+x_23_5_2=1
+x_24_0_2=0
+x_24_0_3=1
+d_0=2.429
+d_1=1.500
+d_2=0.500
+d_3=3.500
+d_4=3.000
+d_5=1.429
+d_6=1.500
+d_7=1.571
+d_8=0.833
+d_9=0.500
+d_10=1.500
+d_11=0.429
+d_12=2.000
+d_13=0.571
+d_14=1.000
+d_15=1.167
+d_16=3.500
+d_17=1.500
+d_18=1.500
+d_19=2.500
+d_20=-0.000
+d_21=1.833
+d_22=1.571
+d_23=1.500
+d_24=2.571
+d_x_0=1.429
+d_x_1=0.167
+d_x_2=0.167
+d_x_3=1.500
+d_x_4=2.000
+d_x_5=0.429
+d_x_6=0.500
+d_x_7=0.571
+d_x_8=0.167
+d_x_9=0.500
+d_x_10=0.500
+d_x_11=0.429
+d_x_12=1.000
+d_x_13=0.571
+d_x_14=1.000
+d_x_15=0.833
+d_x_16=2.500
+d_x_17=1.167
+d_x_18=0.500
+d_x_19=1.500
+d_x_20=-0.000
+d_x_21=0.167
+d_x_22=0.571
+d_x_23=1.500
+d_x_24=0.571
+d_y_0=1.000
+d_y_1=1.333
+d_y_2=0.333
+d_y_3=2.000
+d_y_4=1.000
+d_y_5=1.000
+d_y_6=1.000
+d_y_7=1.000
+d_y_8=0.667
+d_y_10=1.000
+d_y_12=1.000
+d_y_13=0.000
+d_y_15=0.333
+d_y_16=1.000
+d_y_17=0.333
+d_y_18=1.000
+d_y_19=1.000
+d_y_21=1.667
+d_y_22=1.000
+d_y_24=2.000
+normalized distance of container 0 : 0.2698412698412695
+normalized distance of container 1 : 0.16666666666666669
+normalized distance of container 2 : 0.05555555555555531
+normalized distance of container 3 : 0.3888888888888887
+normalized distance of container 4 : 0.3333333333333333
+normalized distance of container 5 : 0.1587301587301772
+normalized distance of container 6 : 0.16666666666666646
+normalized distance of container 7 : 0.17460317460301913
+normalized distance of container 8 : 0.09259259259271804
+normalized distance of container 9 : 0.05555555555555536
+normalized distance of container 10 : 0.16666666666666646
+normalized distance of container 11 : 0.04761904761904626
+normalized distance of container 12 : 0.2222222222222222
+normalized distance of container 13 : 0.06349206349235886
+normalized distance of container 14 : 0.1111111111111111
+normalized distance of container 15 : 0.1296296296295299
+normalized distance of container 16 : 0.38888888888926976
+normalized distance of container 17 : 0.1666666666666656
+normalized distance of container 18 : 0.16666666666660318
+normalized distance of container 19 : 0.27777777777777757
+normalized distance of container 20 : -1.2696316906174797e-13
+normalized distance of container 21 : 0.20370370370372182
+normalized distance of container 22 : 0.1746031746029958
+normalized distance of container 23 : 0.16666666666666666
+normalized distance of container 24 : 0.2857142857141497

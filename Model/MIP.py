@@ -295,7 +295,8 @@ def save_output_file(_file_path, _result):
             writer.writerow({'idx': idx, 'loc_x': loc_x, 'loc_y': loc_y, 'loc_z': loc_z, 'weight': weight,
                                 'group' : group, 'score' : score, 'seq' : sequence, 'reloc' : relocation, 'size(ft)': size})
         print('\n--------- Success Create Output Data ---------\n', _file_path ,'\n')
-         
+
+  
 def main():
     
     # find all folders in folder_name
@@ -362,23 +363,125 @@ def main():
                         else:
                             print('!!! Already exist output file !!!')
                             print(output_file_path, '\n')
-                
-
 
 stack_num = 6
 tier_num = 5
 peak_limit = 2
-container_num = 23
+container_num = 25
 
-input_folder = f'Ungrouped/Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
-output_folder = f'Ungrouped/Output_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
+input_folder = f'Grouped/Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
+output_folder = f'Grouped/Output_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
 
 # Big M
 Big_M = 100
 
 alpha_list = [0, 0.5, 1]
 
-# Get Geometric centers
 level_num = 9
 
+# parent_folder_name = 'Grouped'
+
+
 main()
+
+# def main():
+    
+#     # find a`ll directories in parent_folder_name
+#     sub_folder_list = os.listdir(parent_folder_name)
+
+#     for sub_folder_name in sub_folder_list:
+
+#         # If sub_folder_name contain 'Input'
+#         if 'Input' in sub_folder_name:
+
+#             input_folder = os.path.join(parent_folder_name, sub_folder_name)
+            
+#             # Remove input from sub_folder_name
+#             output_folder_name = sub_folder_name.replace('Input', 'Output')
+#             output_folder = os.path.join(parent_folder_name, output_folder_name)
+
+#             # find all folders in folder_name
+#             initial_folder_list = os.listdir(input_folder)
+
+#             for initial_folder_name in initial_folder_list:
+                
+#                 _new_folder_list = os.listdir(os.path.join(input_folder, initial_folder_name))
+                
+#                 for _new_folder in _new_folder_list:
+                    
+#                     input_folder_path = os.path.join(input_folder, initial_folder_name, _new_folder)
+#                     output_folder_path = os.path.join(output_folder, 'MIP', initial_folder_name, _new_folder)
+                    
+#                     print('Input Folder Path : ', input_folder_path)
+#                     print('Output Folder Path : ', output_folder_path)
+
+#                     initial_file_names, new_file_names, experiment_idx_list = get_input_file(input_folder_path)
+                    
+#                     initial_file_num = len(initial_file_names)
+
+#                     if initial_file_num != len(new_file_names):
+#                         print('!!! Error : Check Data folder !!!')
+                    
+#                     else:
+#                         for alpha in alpha_list:
+#                             beta = 1 - alpha  
+                            
+#                             result_folder_path_by_alpha = os.path.join(output_folder_path, f'alpha_{alpha}_beta_{beta}')          
+                            
+#                             print('!!!!!! alpha : ', alpha)
+                            
+#                             for file_idx in range(initial_file_num):
+                                
+#                                 initial_file = os.path.join(os.getcwd(), input_folder_path, initial_file_names[file_idx])
+#                                 new_file = os.path.join(os.getcwd(), input_folder_path, new_file_names[file_idx])
+#                                 experiment_idx = experiment_idx_list[file_idx]
+#                                 # print(experiment_idx)
+#                                 initial_file = os.path.join(os.getcwd(), input_folder_path, f'Initial_state_ex{experiment_idx}.csv')
+#                                 new_file = os.path.join(os.getcwd(), input_folder_path, f'Container_ex{experiment_idx}.csv')
+                                            
+#                                 print('---------------- Info of Input Data ----------------')
+#                                 print('File path of initial container : ', initial_file)
+#                                 print('File path of new container : ', new_file)
+#                                 print(f"Now repeat time : {experiment_idx}")
+#                                 print(f"Result Folder : {result_folder_path_by_alpha}\n")               
+                                
+                                
+#                                 output_file_path = os.path.join(result_folder_path_by_alpha, f'Configuration_ex{experiment_idx}.csv')
+#                                 print('Output File Path : ', output_file_path, '\n')
+#                                 # Check exist file in folder
+#                                 if not os.path.exists(output_file_path):
+#                                     model_result = mip_model(initial_file, new_file, stack_num, tier_num, peak_limit, level_num, Big_M, alpha, beta, result_folder_path_by_alpha, experiment_idx)
+#                                     print('---------------- Done mip model ----------------')        
+                                    
+#                                     if len(model_result) != 0:
+#                                         # save solution to csv file
+#                                         save_output_file(output_file_path, model_result)
+                                    
+#                                     else:
+#                                         print('!!! There is no solution !!!')        
+
+#                                 else:
+#                                     print('!!! Already exist output file !!!')
+#                                     print(output_file_path, '\n')
+                
+
+
+# stack_num = 6
+# tier_num = 5
+# peak_limit = 2
+# # container_num = 27
+
+# # input_folder = f'Grouped/Input_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
+# # output_folder = f'Grouped/Output_Data_{container_num}(stack_{stack_num}_tier_{tier_num})'
+
+# # Big M
+# Big_M = 100
+
+# alpha_list = [0, 0.5, 1]
+
+# level_num = 9
+
+# parent_folder_name = 'Grouped'
+
+
+# main()

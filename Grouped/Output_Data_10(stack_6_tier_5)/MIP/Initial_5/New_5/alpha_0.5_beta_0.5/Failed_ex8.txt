@@ -1,0 +1,21 @@
+Can't find feasible solution
+
+Number of initial container : 5
+Number of new container : 5
+Total number of containers : 10
+Level_num : 9
+Container_level : [8, 1, 6, 8, 8, 9, 8, 3, 1, 1]
+ideal_configuration : 
+ [[0. 0. 0. 0. 0. 0.]
+ [8. 0. 0. 0. 0. 0.]
+ [3. 8. 0. 0. 0. 0.]
+ [1. 6. 8. 0. 0. 0.]
+ [1. 1. 8. 9. 0. 0.]]
+Centroid : {8: (1.25, 1.5), 1: (0.3333333333333333, 0.3333333333333333), 6: (1.0, 1.0), 9: (3.0, 0.0), 3: (0.0, 2.0)}
+Repeat number : 8
+Original weight : [7.21, 18.42, 7.11, 20.69, 14.84, 22.91, 8.24, 15.09, 7.33, 5.32]
+Group : [3, 0, 2, 3, 3, 3, 3, 1, 0, 0]
+Sequence : [0, 0, 0, 0, 0, 1, 2, 3, 4, 5]
+Scroe : [307.21, 18.42, 207.11, 320.69, 314.84, 322.91, 308.24, 115.09, 7.33, 5.32]
+Time taken to solve the MIP model : 0.0000 seconds
+---------------------------------

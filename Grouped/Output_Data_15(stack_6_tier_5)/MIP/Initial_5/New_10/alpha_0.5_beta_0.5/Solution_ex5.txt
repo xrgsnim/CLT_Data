@@ -1,0 +1,95 @@
+Number of initial container : 5
+Number of new container : 10
+Total number of containers : 15
+Level_num : 9
+Container_level : [6, 1, 8, 1, 1, 8, 9, 6, 8, 8, 8, 3, 3, 6, 8]
+ideal_configuration : 
+ [[8. 0. 0. 0. 0. 0.]
+ [6. 8. 0. 0. 0. 0.]
+ [3. 6. 8. 0. 0. 0.]
+ [1. 3. 8. 8. 0. 0.]
+ [1. 1. 6. 8. 9. 0.]]
+Centroid : {6: (1.0, 1.6666666666666667), 1: (0.3333333333333333, 0.3333333333333333), 8: (1.8333333333333333, 1.8333333333333333), 9: (4.0, 0.0), 3: (0.5, 1.5)}
+Repeat number : 5
+Original weight : [18.66, 22.93, 12.83, 21.4, 20.13, 13.79, 20.87, 9.43, 16.2, 16.46, 11.35, 8.31, 14.33, 20.04, 12.82]
+Group : [2, 0, 3, 0, 0, 3, 3, 2, 3, 3, 3, 1, 1, 2, 3]
+Sequence : [0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Scroe : [218.66, 22.93, 312.83, 21.4, 20.13, 313.79, 320.87, 209.43, 316.2, 316.46, 311.35, 108.31, 114.33, 220.04, 312.82]
+Time taken to solve the MIP model : 0.0428 seconds
+min_d : 0, max_d : 9
+---------------------------------
+solution for: IP model
+objective: 1.7037
+x_0_1_0=1
+x_1_4_0=1
+x_2_4_1=1
+x_3_5_0=1
+x_4_2_0=1
+x_5_2_1=1
+x_6_5_1=1
+x_7_3_0=1
+x_8_2_2=1
+x_9_2_3=1
+x_10_3_1=1
+x_11_0_0=1
+x_12_0_1=1
+x_13_1_1=1
+x_14_1_2=1
+d_0=1.667
+d_1=4.000
+d_2=3.000
+d_3=5.000
+d_4=2.000
+d_5=1.000
+d_6=2.000
+d_7=3.667
+d_8=0.333
+d_9=1.333
+d_10=2.000
+d_11=2.000
+d_12=1.000
+d_13=0.667
+d_14=1.000
+d_x_1=3.667
+d_x_2=2.167
+d_x_3=4.667
+d_x_4=1.667
+d_x_5=0.167
+d_x_6=1.000
+d_x_7=2.000
+d_x_8=0.167
+d_x_9=0.167
+d_x_10=1.167
+d_x_11=0.500
+d_x_12=0.500
+d_x_14=0.833
+d_y_0=1.667
+d_y_1=0.333
+d_y_2=0.833
+d_y_3=0.333
+d_y_4=0.333
+d_y_5=0.833
+d_y_6=1.000
+d_y_7=1.667
+d_y_8=0.167
+d_y_9=1.167
+d_y_10=0.833
+d_y_11=1.500
+d_y_12=0.500
+d_y_13=0.667
+d_y_14=0.167
+normalized distance of container 0 : 0.1851851851851852
+normalized distance of container 1 : 0.4444444444444444
+normalized distance of container 2 : 0.3333333333333333
+normalized distance of container 3 : 0.5555555555555556
+normalized distance of container 4 : 0.2222222222222222
+normalized distance of container 5 : 0.11111111111111094
+normalized distance of container 6 : 0.2222222222222222
+normalized distance of container 7 : 0.40740740740740744
+normalized distance of container 8 : 0.03703703703703661
+normalized distance of container 9 : 0.1481481481481472
+normalized distance of container 10 : 0.22222222222222154
+normalized distance of container 11 : 0.22222222222222202
+normalized distance of container 12 : 0.11111111111111072
+normalized distance of container 13 : 0.07407407407407408
+normalized distance of container 14 : 0.11111111111111081

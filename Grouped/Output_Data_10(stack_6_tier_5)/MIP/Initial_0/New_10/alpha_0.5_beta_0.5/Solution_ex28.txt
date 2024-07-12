@@ -1,0 +1,71 @@
+Number of initial container : 0
+Number of new container : 10
+Total number of containers : 10
+Level_num : 9
+Container_level : [6, 8, 8, 8, 9, 6, 6, 1, 1, 8]
+ideal_configuration : 
+ [[0. 0. 0. 0. 0. 0.]
+ [8. 0. 0. 0. 0. 0.]
+ [6. 8. 0. 0. 0. 0.]
+ [1. 6. 8. 0. 0. 0.]
+ [1. 6. 8. 9. 0. 0.]]
+Centroid : {6: (0.6666666666666666, 1.0), 8: (1.25, 1.5), 9: (3.0, 0.0), 1: (0.0, 0.5)}
+Repeat number : 28
+Original weight : [17.04, 20.09, 14.02, 9.85, 23.99, 17.01, 15.39, 22.89, 20.69, 13.06]
+Group : [2, 3, 3, 3, 3, 2, 2, 0, 0, 3]
+Sequence : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Scroe : [217.04, 320.09, 314.02, 309.85, 323.99, 217.01, 215.39, 22.89, 20.69, 313.06]
+Time taken to solve the MIP model : 0.5207 seconds
+min_d : 0, max_d : 9
+---------------------------------
+solution for: IP model
+objective: 2.11111
+x_0_1_0=1
+x_1_4_0=1
+x_2_3_0=1
+x_3_1_1=1
+x_4_3_1=1
+x_5_5_0=1
+x_6_2_0=1
+x_7_0_0=1
+x_8_0_1=1
+x_9_1_2=1
+r_0_0=1
+r_0_1=1
+d_0=1.333
+d_1=4.250
+d_2=3.250
+d_3=0.750
+d_4=1.000
+d_5=5.333
+d_6=2.333
+d_7=0.500
+d_8=0.500
+d_9=0.750
+d_x_0=0.333
+d_x_1=2.750
+d_x_2=1.750
+d_x_3=0.250
+d_x_5=4.333
+d_x_6=1.333
+d_x_9=0.250
+d_y_0=1.000
+d_y_1=1.500
+d_y_2=1.500
+d_y_3=0.500
+d_y_4=1.000
+d_y_5=1.000
+d_y_6=1.000
+d_y_7=0.500
+d_y_8=0.500
+d_y_9=0.500
+normalized distance of container 0 : 0.1481481481481478
+normalized distance of container 1 : 0.4722222222222218
+normalized distance of container 2 : 0.36111111111111033
+normalized distance of container 3 : 0.08333333333333333
+normalized distance of container 4 : 0.1111111111111111
+normalized distance of container 5 : 0.5925925925925912
+normalized distance of container 6 : 0.25925925925925797
+normalized distance of container 7 : 0.05555555555555555
+normalized distance of container 8 : 0.055555555555555455
+normalized distance of container 9 : 0.08333333333333254
